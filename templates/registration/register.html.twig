@@ -3,121 +3,17 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+    <h1>Register</h1>
 
-<div id="register">
-    <div class="containerR">
-        <div id="register-row" class="row justify-content-center align-items-center">
-            <div id="register-column" class="col-md-5">
-                <div id="register-box" class="col-md-12">
-                    {{ form_start(registrationForm, {'attr': {'class': 'form', 'id': 'register-form'}}) }}
-                        <div class="form-group">
-                            <h3 class="text-center text-info">Registro de usuario</h3>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 field-label-responsive">
-                                {{ form_label(registrationForm.name, 'Nombre', {'label_attr': {'class': 'text-info'}}) }}
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-user text-info"></i></div>
-                                        {{ form_widget(registrationForm.name, { 'attr': {'class': 'form-control', 'placeholder': 'Tu nombre', 'autofocus': true}}) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 field-label-responsive">
-                                {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'text-info'}}) }}
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-at text-info"></i></div>
-                                        {{ form_widget(registrationForm.email, { 'attr': {'class': 'form-control', 'placeholder': 'Tu email. Ej: tu@algomail.com'}}) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 field-label-responsive">
-                                {{ form_label(registrationForm.lastName, 'Apellidos', {'label_attr': {'class': 'text-info'}}) }}
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group">
-                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                        <div class="input-group-addon" style="width: 2.6rem">
-                                            <i class="far fa-user text-info"></i>
-                                        </div>
-                                        {{ form_widget(registrationForm.lastName, { 'attr': {'class': 'form-control', 'placeholder': 'Tus apellidos'}}) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 field-label-responsive">
-                                {{ form_label(registrationForm.plainPassword, 'Contraseña', {'label_attr': {'class': 'text-info'}}) }}
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group has-danger">
-                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fa fa-key text-info"></i></div>
-                                        {{ form_widget(registrationForm.plainPassword, { 'attr': {'class': 'form-control', 'placeholder': 'Tu contraseña'}}) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 field-label-responsive">
-                                {{ form_label(registrationForm.city, 'Ciudad', {'label_attr': {'class': 'text-info'}}) }}
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group has-danger">
-                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-city text-info"></i></div>
-                                        {{ form_widget(registrationForm.city, { 'attr': {'class': 'form-control', 'placeholder': 'Tu Ciudad'}}) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 field-label-responsive">
-                                {{ form_label(registrationForm.moneyTime, 'Saldo Inicial', {'label_attr': {'class': 'text-info'}}) }}
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group has-danger">
-                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-money-bill text-info"></i></div>
-                                        {{ form_widget(registrationForm.moneyTime, { 'attr': {'class': 'form-control', 'placeholder': 'Tu saldo inicial será 0', 'disabled': 'true', 'value': '0'}}) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3 field-label-responsive">
-                                {{ form_label(registrationForm.profilePic, 'Imagen de Perfil', {'label_attr': {'class': 'text-info'}}) }}
-                            </div>
-                            <div class="col-md-9">
-                                <div class="form-group has-danger">
-                                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
-                                        <div class="input-group-addon" style="width: 2.6rem"><i class="fas fa-image text-info"></i></div>
-                                        {{ form_widget(registrationForm.profilePic, { 'attr': {'class': 'form-control', 'placeholder': 'Indica la URL'}}) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-user-plus"></i> Register</button>
-                            </div>
-                            <div class="col-md-6" id="register-link" class="text-right">
-                                <p>¿Ya tienes cuenta? <a href="/login" class="text-info">Logeate</a></p>
-                            </div>
-                        </div>
-                    {{ form_end(registrationForm) }}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email, {'label': 'Escribe tu puto email'}) }}
+        {{ form_row(registrationForm.name, {'label': 'Aqui tu nombre desgraciado'}) }}
+        {{ form_row(registrationForm.lastName, {'label': 'Tu apellido despojo'}) }}
+        {{ form_row(registrationForm.city, {'label': 'La ciudad de mierda en la que vives'}) }}
+        {{ form_row(registrationForm.moneyTime, {'label': 'Estos son tus dineros iniciales'}) }}
+        {{ form_row(registrationForm.profilePic, {'label': 'ponte una foto secsi'}) }}
+        {{ form_row(registrationForm.plainPassword, {'label': 'La contraseña'}) }}
+
+        <button class="btn">Register</button>
+    {{ form_end(registrationForm) }}
 {% endblock %}
