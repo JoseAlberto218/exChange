@@ -17,4 +17,13 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
         return $this->render('default/index.html.twig');
     }
+
+    /**
+     * @Route("/logeado", name="indexLogged")
+     */
+    public function indexLogged()
+    {
+        $em = $this->getDoctrine()->getManager();
+        return $this->render('default/indexLogged.html.twig');
+    }
 }
