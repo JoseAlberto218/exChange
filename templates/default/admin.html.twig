@@ -94,12 +94,19 @@
 	<table>
 
 		<tr>
-			<td><input type="button" id="botonComentarios" value="Mostrar comentarios sin responder"></input></td>
-			<td><input type="button" id="botonComentariosRespondidos" value="Mostrar comentarios respondidos"></input>
+			<td><input type="button" id="botonComentarios" value="Mostrar comentarios sin responder"
+					class="btn btn-outline-primary"></input></td>
+			<td><input type="button" id="botonComentariosRespondidos" value="Mostrar comentarios respondidos"
+					class="btn btn-outline-primary"></input>
 			</td>
-			<td><input type="button" id="editarPerfil" value="Editar perfil de usuarios"></input></td>
-			<td><input type="button" id="generarCategoria" value="Generar categoría"></input></td>
-			<td><input type="button" id="habilitarCiudad" value="Habilitar ciudad"></input></td>
+			<td><input type="button" id="editarPerfil" value="Editar perfil de usuarios"
+					class="btn btn-outline-primary"></input></td>
+			<td><input type="button" id="generarCategoria" value="Generar categoría"
+					class="btn btn-outline-primary"></input>
+			</td>
+			<td><input type="button" id="habilitarCiudad" value="Habilitar ciudad"
+					class="btn btn-outline-primary"></input>
+			</td>
 		</tr>
 
 	</table>
@@ -125,8 +132,10 @@
 				<td>
 					<form action="/responderComentario" method="POST" id="formRespuesta">
 						<input type="hidden" name="validar" value="{{comment.id}}">
-						<textarea rows="4" cols="50" name="respuesta" value="" id="respuesta"></textarea>
-						<input type="submit" name="actualiarPeticion{{comment.id}}" value="Anotar en respondidos">
+						<textarea rows="4" cols="50" name="respuesta" value="" id="respuesta"
+							class="form-control"></textarea></textarea>
+						<input type="submit" name="actualiarPeticion{{comment.id}}" value="Anotar en respondidos"
+							class="btn btn-primary">
 					</form>
 				</td>
 			</tr>
@@ -165,11 +174,6 @@
 		</table>
 
 	</div>
-
-	<form action="/logout">
-
-		<input type="submit" name="logout" value="logout">
-	</form>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.js"
 		integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
