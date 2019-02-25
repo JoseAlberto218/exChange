@@ -1,0 +1,165 @@
+{% extends 'base.html.twig' %}
+{% block head %}
+    <title>ExChange!</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+{% endblock %}
+
+{% block body %}
+    <header>
+        <nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
+            <div class="ml-5">
+                <div style="margin-left: 140px;">
+                    <a class="navbar-brand" href="#">ExChange</a>
+                </div>
+            </div>
+            <div class="mr-5">
+                <div style="margin-right: 140px;">
+                    <div class="container">
+                        <div class="row">
+                          <div class="col-sm">
+                            <div style="height:50px; width:100px; border:3px solid white; border-radius:10px; text-align: right; background-color: white"><span style="color: #00A2FF; padding-inline-end: 20px; bottom: 12px; right: 10px; position: absolute;">300</span></div>
+                          </div>
+                          <div class="col-sm">
+                            <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>   {#Falta cuadrar esto#}                        
+                          </div>
+                          <div class="col-sm">
+                            <div class="dropdown">
+                              <button class="btn" type="button" id="btnclr"><a href="#"><div><i class="far fa-envelope fa-2x " style="color:white;"></i><span class="badge">1</span></div>
+                              </a></button>
+                            </div>
+                          </div>
+                          <div class="col-sm">
+                            <div class="dropdown">
+                                <button class="btn" type="button" data-toggle="dropdown" id="btnclr"><i class="far fa-user fa-2x" style="color: white;"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a href="/logout">Cerrar Sesion</a></li>
+                                  <li><a href="#">Ajustes</a></li>
+                                  <li><a href="#">Algo mas XD</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <h1>Actividades destacadas</h1>
+    <div style="margin-left: 30%; margin-right: 30%; width:40%; height: 30%;">
+        <div id="demo" class="carousel slide" data-ride="carousel">
+
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                <li data-target="#demo" data-slide-to="1"></li>
+                <li data-target="#demo" data-slide-to="2"></li>
+            </ul>
+
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="images/descarga.jpg">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/espacio.jpg">
+                </div>
+                <div class="carousel-item">
+                    <img src="images/chimuelo.jpg">
+                </div>
+            </div>
+
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+
+        </div>
+    </div>
+   <footer class="page-footer font-small unique-color-dark">
+
+        <div style="background-color: #00A2FF;">
+            <div class="container">
+
+                <div class="row py-4 d-flex align-items-center">
+
+                    <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+                        <h6 class="mb-0">Footer</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container text-center text-md-left mt-5">
+
+            <div class="row mt-3">
+
+                <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+
+                    <h6 class="text-uppercase font-weight-bold">ExChange</h6>
+                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                    <p>Semoh una empresa pequenia por favor Nacho ponnos un dies</p>
+
+                </div>
+                <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+
+                    <h6 class="text-uppercase font-weight-bold">Products</h6>
+                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                    <p>
+                        <a href="#!">gjgh</a>
+                    </p>
+                    <p>
+                        <a href="#!">jhgjs</a>
+                    </p>
+                    <p>
+                        <a href="#!">fghfghw</a>
+                    </p>
+                    <p>
+                        <a href="#!">ghfghf</a>
+                    </p>
+                </div>
+                <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+
+                    <h6 class="text-uppercase font-weight-bold">ghfs</h6>
+                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                    <p>
+                        <a href="#!">Yghfgt</a>
+                    </p>
+                    <p>
+                        <a href="#!">dghfcdvb</a>
+                    </p>
+                    <p>
+                        <a href="#!">gfdgf</a>
+                    </p>
+                    <p>
+                        <a href="#!">gfdgfd</a>
+                    </p>
+                </div>
+                <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                    <h6 class="text-uppercase font-weight-bold">Contacto</h6>
+                    <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                    <p>
+                        <i class="fas fa-home mr-3"></i> Granada, Andalucia, ESPAÑA</p>
+                    <p>
+                        <i class="fas fa-envelope mr-3"></i> exchange@exchange.com</p>
+                    <p>
+                        <i class="fas fa-phone mr-3"></i> 958 958 958 </p>
+
+                </div>
+
+            </div>
+
+        </div>
+        <div class="footer-copyright text-center py-3">© 2018 Copyright:
+            <a href="https://mdbootstrap.com/education/bootstrap/"> ExChange</a>
+        </div>
+    </footer>
+{% endblock %}
