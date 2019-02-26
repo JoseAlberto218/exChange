@@ -10,12 +10,11 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 {% endblock %}
 
-{% block body %}
-    <header>
+{% block header %}
         <nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
             <div class="ml-5">
                 <div style="margin-left: 140px;">
-                    <a class="navbar-brand" href="#">ExChange</a>
+                    <a class="navbar-brand" href="/">ExChange</a>
                 </div>
             </div>
             <div class="mr-5">
@@ -24,12 +23,12 @@
                         <div class="row">
                             <div class="col-sm">
                                 <form action="/login"><input type="submit" name="login" value="Iniciar Sesion"
-                                        style="color:white" class="bg-transparent">
+                                        style="color:white; background-color: #343d42;" class="btn">
                                 </form>
                             </div>
                             <div class="col-sm">
                                 <form action="/register"><input type="submit" name="register" value="Registrate"
-                                        style="color:white" class="bg-transparent">
+                                        style="color:white; background-color: #343d42;" class="btn">
                                 </form>
                             </div>
                         </div>
@@ -37,9 +36,12 @@
                 </div>
             </div>
         </nav>
-    </header>
+ {% endblock %}
+
+{% block body %}
+    
     <h1>Actividades destacadas</h1>
-    <div style="margin-left: 30%; margin-right: 30%; width:40%; height: 30%;">
+    <div style="margin:auto; width:70%; height: auto;">
         <div id="demo" class="carousel slide" data-ride="carousel">
 
             <ul class="carousel-indicators">
@@ -71,7 +73,7 @@
     </div>
 
        <div class="jumbotron text-center">
-            <img src="img/logo.png" class="rounded-circle" alt="logo" width="200" height="200">
+            <img src="images/logo.png" class="rounded-circle" alt="logo" width="200" height="200">
             <h1>BUSCA AQUÍ TU SERVICIO</h1>
             <form action="#" method="POST">
                 <div class="form-group">
@@ -80,7 +82,9 @@
                 <button type="submit" class="btn btn-primary">Buscar Servicio</button>
             </form>
         </div>
-    <footer class="page-footer font-small unique-color-dark">
+{% endblock %}
+{% block footer %}
+<div class="page-footer font-small unique-color-dark">
 
         <div style="background-color: #00A2FF;">
             <div class="container">
@@ -157,5 +161,5 @@
         <div class="footer-copyright text-center py-3">© 2018 Copyright:
             <a href="https://mdbootstrap.com/education/bootstrap/"> ExChange</a>
         </div>
-    </footer>
+    </div>
 {% endblock %}

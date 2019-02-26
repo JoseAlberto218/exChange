@@ -11,77 +11,74 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 {% endblock %}
 
-{% block body %}
-<header>
+{% block header %}
     <nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
-        <div class="ml-5">
-            <div style="margin-left: 140px;">
-                <a class="navbar-brand" href="#">ExChange</a>
-            </div>
-        </div>
-        <div class="mr-5">
-            <div style="margin-right: 140px;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm">
-                            <div style="height:50px; width:100px; border:3px solid white; border-radius:10px;">
-                                <span>{#indicador de tiempo#}</span></div>
-                        </div>
-                        <div class="col-sm">
-                            <i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i> {#Falta cuadrar esto#}
-                        </div>
-                        <div class="col-sm">
-                            <button class="btn" type="button"><a href="#">
-                                    <div><i class="far fa-envelope fa-2x "
-                                            style="color:white;position:absolute;"></i><span
-                                            class="badge">{#indicador mensajes#}</span></div>
-                                </a></button>
-                        </div>
-                        <div class="col-sm">
-                            <div class="dropdown">
-                                <button class="btn" type="button" data-toggle="dropdown"><i class="far fa-user fa-2x"
-                                        style="color: white;"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Cerrar Sesion</a></li>
-                                    <li><a href="#">Ajustes</a></li>
-                                    <li><a href="#">Algo mas XD</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+            <div class="ml-5">
+                <div style="margin-left: 140px;">
+                    <a class="navbar-brand" href="/">ExChange</a>
                 </div>
             </div>
-        </div>
-        </div>
-    </nav>
-</header>
+            <div class="mr-5">
+                <div style="margin-right: 140px;">
+                    <div class="container">
+                        <div class="row">
+                          <div class="col-sm">
+                            <div style="height:50px; width:100px; border:3px solid white; border-radius:10px; text-align: right; background-color: white"><span style="color: #00A2FF; padding-inline-end: 20px; bottom: 12px; right: 10px; position: absolute;">{{ usuario.moneyTime }}</span></div>
+                          </div>
+                          <div class="col-sm">
+                            <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>   {#Falta cuadrar esto#}                        
+                          </div>
+                          <div class="col-sm">
+                            <div class="dropdown">
+                              <button class="btn" type="button" id="btnclr"><a href="#"><div><i class="far fa-envelope fa-2x " style="color:white;"></i><span class="badge">1</span></div>
+                              </a></button>
+                            </div>
+                          </div>
+                          <div class="col-sm">
+                            <div class="dropdown">
+                                <button class="btn" type="button" data-toggle="dropdown" id="btnclr"><i class="far fa-user fa-2x" style="color: white;"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a href="/profile">Mi perfil</a></li>
+                                  <li><a href="#">Algo mas XD</a></li>
+                                  <li><a href="/logout">Cerrar Sesion</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </nav>
+{% endblock %}
+{% block body %}
 <div class="container-fluid" style="background-color: rgb(220, 231, 227)">
     <div class="row">
         <div class="col-sm-5 text-center">
             <div class="card" style="width:400px; background-color: rgb(184, 218, 255, 0.3); margin-left: 80px;">
-                <img class="rounded-circle" src="{{usuario.profilepic}}" alt="Card image"
-                    style="width:250px; margin-left: 75px;">
+                <img class="rounded-circle" src="{{ usuario.profilePic }}" alt="Card image"
+                    style="width:250px; margin: 75px; height: 250px;">
                 <div class="card-body">
-                    <h4 class="card-title">{{usuario.nombre}}</h4>
+                    <h4 class="card-title">{{ usuario.name }} {{ usuario.lastName }}</h4>
                     <p class="card-text">
-                        Ciudad: {{usuario.ciudad}}<br>
-                        Email: {{usuario.email}}<br>
-                        Teléfono: {{usuario.telefono}} <br>
-                        Money time: {{usuario.moneytime}}
+                        Ciudad: {{ usuario.city }}<br>
+                        Email: {{ usuario.email }}<br>
+                        Money time: {{ usuario.moneyTime }}
                     </p>
                     <a href="#" class="btn btn-primary">Editar perfil</a>
                 </div>
             </div>
         </div>
-        <div class="col-sm-7">
+        <div class="col-sm-7"><br>
+            <h1 class="text-info">Tu listado de servicios</h1>
             <div class="container-fluid">
                 <div class="card-group mt-3">
                     <div class="card border-info mb-3" style="max-width: 18rem; margin: 5px;">
-                        <img class="card-img-top" src="{{servicios.imagen}}" alt="Servicio">
+                        <img class="card-img-top" src="" alt="Servicio">
                         <div class="card-body text-info">
-                            <h5 class="card-title">{{servicios.nombre}}</h5>
-                            <p class="card-text">{{servicios.coste}}</p>
+                            <h5 class="card-title"></h5>
+                            <p class="card-text"></p>
                             <a href="#" class="btn btn-primary">Contratar Servicio</a>
                         </div>
                     </div>
