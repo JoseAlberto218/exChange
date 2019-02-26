@@ -37,7 +37,7 @@
             }
             .carousel-inner img {
                 width: 100%;
-                height: 100%;
+                height: 450px;
             }
             #btnclr {
                 background-color: #00A2FF;
@@ -80,8 +80,9 @@
         </style>
     </head>
     <body>
+        {% block header %}{% endblock %}
         {% block body %}{% endblock %}
-
+        {% block footer %}{% endblock %}
         <script src="{{ asset('build/app.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
