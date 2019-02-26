@@ -42,5 +42,19 @@ class DefaultController extends Controller
         	'controller_name'=>'DefaultController',
         	'usuario' => $user]);
     }
+
+    /**
+     * @Route("/addService", name="service")
+     */
+    public function profile(Request $request): Response
+    {
+    	$session=$request->getSession()->get(Security::LAST_USERNAME);
+    	$repository = $this->getDoctrine()->getRepository(User::class);
+        $user = $repository->findOneByEmail($session);
+        $em = $this->getDoctrine()->getManager();
+        return $this->render('default/infoUser.html.twig', [
+        	'controller_name'=>'DefaultController',
+        	'usuario' => $user]);
+    }
     
 }

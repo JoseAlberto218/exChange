@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\Security;
@@ -60,6 +62,16 @@ class User implements UserInterface
      * @ORM\Column(type="text")
      */
     private $profilePic;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Services", mappedBy="user")
+     */
+    private $services;
+
+    public function __construct()
+    {
+        $this->services = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -199,6 +211,37 @@ class User implements UserInterface
     public function setProfilePic(string $profilePic): self
     {
         $this->profilePic = $profilePic;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Services[]
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(Services $service): self
+    {
+        if (!$this->services->contains($service)) {
+            $this->services[] = $service;
+            $service->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(Services $service): self
+    {
+        if ($this->services->contains($service)) {
+            $this->services->removeElement($service);
+            // set the owning side to null (unless already changed)
+            if ($service->getUser() === $this) {
+                $service->setUser(null);
+            }
+        }
 
         return $this;
     }
