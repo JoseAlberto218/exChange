@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Servicios</title>
+</head>
+<body>
+
+<!-- {% extends "base.html.twig" %}
+
+{% block title %}Servicios{% endblock %}
+
+{% block head %}
+
+	{% block stylesheets %}
+        <link href="{{ asset('css/app.scss') }}" type="text/css" rel="stylesheet" />
+    {% endblock %}
+
+{% endblock %}
+
+{% block body %} -->
+    
+    <h1>Hola {{user.nombre}}, aquí puedes crear tu servicio</h1>
+
+	<div id="div1">
+
+		<form action="/creadoServicio" method="POST" id="creadoServicio">
+		
+		<table>
+
+	    	<tr>
+	    		<td><strong>Categoría:</strong></td>
+
+	        	<td><select name="categoriaServicio">
+		    		<option value="0" select="selected">Elige aquí la categoría</option>
+		    		{% for category in categories %}
+		        	<option value="{{category.name}}">{{category.name}}</option>
+		        	{% endfor %}
+	        	</select></td>
+	        </tr>
+	        <tr>
+	        	<td><strong>Título del servicio:</strong></td>
+	        	<td><input type="text" name="tituloServicio"></input></td>
+	        </tr>
+	        <tr>
+	        	<td><strong>Descripción del servicio:</strong></td>
+	        	<td><textarea name="descripcionServicio" rows="4" cols="50"></textarea></td>
+	        </tr>
+	        <tr>
+	    		<td><strong>Selecciona ciudad:</strong></td>
+	    		<td><select name="ciudadServicio">
+		    		<option value="0" select="selected">Elige aquí tu ciudad</option>
+		    		{% for city in cities %}
+		        	<option value="{{city.name}}">{{city.name}}</option>
+		        	{% endfor %}
+	        	</select></td>
+	        </tr>
+			<tr>
+	        	<td><strong>Fecha del servicio:</strong></td>
+	        	<td><input type="date" name="fechaServicio"></input></td>
+	        </tr>
+	        <tr>
+	        	<td><strong>Tiempo que le vas a dedicar al servicio:</strong></td>
+	        	<td><input type="text" name="tiempoServicio"></input></td>
+	        </tr>
+	        <tr>
+	        	<td><input type="submit" name="servicioCrear" value="Crear servicio"></input></td>
+	        </tr>
+	        <tr><td><span class="ocultar"></span></td></tr>
+        <tr><td><br><br></td></tr>
+
+		</table>
+
+		</form>
+		
+	</div>
+
+    <form action="/logout">
+
+        <input type="submit" name="logout" value="logout">
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="crossorigin="anonymous"></script>
+
+<!--     {% block javascripts %} -->
+
+    	<script>
+
+    		$(function(){
+
+    		$(".ocultar").hide();
+    		$("#creadoServicio").on("submit", validacion);
+
+            function validacion(){
+
+            	var span = $(".ocultar");
+            	var mensajeError = "<strong>Hay uno o varios errores:</strong><br>";
+                var enviar = true;
+
+                if($("select[name=categoriaServicio]").val() == 0){
+                	mensajeError += "No has seleccionado la categoría<br>";
+                    enviar = false;
+                }
+
+                if($("input[name=tituloServicio]").val() == ""){
+                	mensajeError += "No has escrito del título del servicio<br>";
+                    enviar = false;
+                }
+
+                if($("textarea[name=descripcionServicio]").val() == ""){
+                	mensajeError += "No has escrito la descripción del servicio<br>";
+                    enviar = false;
+                }
+
+                if($("select[name=ciudadServicio]").val() == 0){
+                	mensajeError += "No has seleccionado la ciudad<br>";
+                    enviar = false;
+                }
+
+                if($("input[name=tiempoServicio]").val() == "" || isNaN($("input[name=tiempoServicio]").val()) || $("input[name=tiempoServicio]").val() < 0.5 || (parseFloat($("input[name=tiempoServicio]").val()) /* + {{user.timeDay}} */) > 6){
+                	mensajeError += "El tiempo dado es incorrecto o supera tus 6 horas<br>";
+                    enviar = false;
+                }
+
+                if(!enviar){
+
+                	span.html(mensajeError);
+                	span.show();
+                }
+
+                return enviar;
+            }
+	    		
+	    	});
+
+	    </script>
+
+<!-- 	{% endblock %}
+
+{% endblock %} -->
+
+</body>
+</html>
+
+
