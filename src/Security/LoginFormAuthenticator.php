@@ -68,9 +68,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
+            throw new CustomUserMessageAuthenticationException('El Email proporcionado con existe.');
         }
-
         return $user;
     }
 
@@ -85,7 +84,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse("/logeado");
+        return new RedirectResponse("/");
 
     }
 
