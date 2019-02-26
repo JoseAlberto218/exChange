@@ -1,12 +1,12 @@
 {% extends "base.html.twig" %}
 
-{{% block head %}}>
+{% block head %}
 <meta charset="utf-8">
 <title>Servicios</title>
-{{% endblock %}}>
+{% endblock %}
 
 
-{{% block header %}}
+{% block header %}
 <nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
 	<div class="ml-5">
 		<div style="margin-left: 140px;">
@@ -54,8 +54,8 @@
 	</div>
 	</div>
 </nav>
-{{% endblock %}}
-{{% block body %}}
+{% endblock %}
+{% block body %}
 <h1>Hola {{user.nombre}}, aquí puedes crear tu servicio</h1>
 
 <div id="div1">
