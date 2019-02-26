@@ -1,0 +1,257 @@
+{% extends "base.html.twig" %}
+
+{{% block head %}}>
+<meta charset="utf-8">
+<title>Servicios</title>
+{{% endblock %}}>
+
+
+{{% block header %}}
+<nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
+	<div class="ml-5">
+		<div style="margin-left: 140px;">
+			<a class="navbar-brand" href="#">ExChange</a>
+		</div>
+	</div>
+	<div class="mr-5">
+		<div style="margin-right: 140px;">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm">
+						<div
+							style="height:50px; width:100px; border:3px solid white; border-radius:10px; text-align: right; background-color: white">
+							<span
+								style="color: #00A2FF; padding-inline-end: 20px; bottom: 12px; right: 10px; position: absolute;">300</span>
+						</div>
+					</div>
+					<div class="col-sm">
+						<button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i
+								class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>
+					</div>
+					<div class="col-sm">
+						<div class="dropdown">
+							<button class="btn" type="button" id="btnclr"><a href="#">
+									<div><i class="far fa-envelope fa-2x " style="color:white;"></i><span
+											class="badge">1</span></div>
+								</a></button>
+						</div>
+					</div>
+					<div class="col-sm">
+						<div class="dropdown">
+							<button class="btn" type="button" data-toggle="dropdown" id="btnclr"><i
+									class="far fa-user fa-2x" style="color: white;"></i>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="/logout">Cerrar Sesion</a></li>
+								<li><a href="#">Ajustes</a></li>
+								<li><a href="#">Algo mas XD</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</nav>
+{{% endblock %}}
+{{% block body %}}
+<h1>Hola {{user.nombre}}, aquí puedes crear tu servicio</h1>
+
+<div id="div1">
+
+	<form action="/creadoServicio" method="POST" id="creadoServicio" class="form-group">
+
+		<table>
+
+			<tr>
+				<td><strong>Categoría:</strong></td>
+
+				<td><select name="categoriaServicio">
+						<option value="0" select="selected">Elige aquí la categoría</option>
+						{% for category in categories %}
+						<option value="{{category.name}}">{{category.name}}</option>
+						{% endfor %}
+					</select></td>
+			</tr>
+			<tr>
+				<td><label for="Titulo del Servicio"><strong>Título del servicio:</strong></label></td>
+				<td><input type="text" name="tituloServicio"></input></td>
+			</tr>
+			<tr>
+				<td><label for="Descripcion del Servicio"><strong>Descripción del servicio:</strong></label></td>
+				<td><textarea name="descripcionServicio" rows="4" cols="50" class="form-control"></textarea></td>
+			</tr>
+			<tr>
+				<td><label for="Selecciona ciudad"><strong>Selecciona ciudad:</strong></label></td>
+				<td><select class="custom-select mr-sm-2" name="ciudadServicio">
+						<option value="0" select="selected">Elige aquí tu ciudad</option>
+						{% for city in cities %}
+						<option value="{{city.name}}">{{city.name}}</option>
+						{% endfor %}
+					</select></td>
+			</tr>
+			<tr>
+				<td><label for="Fecha del Servicio"><strong>Fecha del servicio:</strong></label></td>
+				<td><input type="date" name="fechaServicio" class="form-control"></input></td>
+			</tr>
+			<tr>
+				<td><label for="tiempoServicio"><strong>Tiempo que le vas a dedicar al servicio:</strong></label></td>
+				<td><input type="text" name="tiempoServicio" class="form-control"></input></td>
+			</tr>
+			<tr>
+				<td><input type="submit" name="servicioCrear" value="Crear servicio" class="btn btn-primary"></input>
+				</td>
+			</tr>
+			<tr>
+				<td><span class="ocultar"></span></td>
+			</tr>
+			<tr>
+				<td><br><br></td>
+			</tr>
+
+		</table>
+
+	</form>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+	crossorigin="anonymous"></script>
+
+{% block javascripts %}
+
+<script>
+
+	$(function () {
+
+		$(".ocultar").hide();
+		$("#creadoServicio").on("submit", validacion);
+
+		function validacion() {
+
+			var span = $(".ocultar");
+			var mensajeError = "<strong>Hay uno o varios errores:</strong><br>";
+			var enviar = true;
+
+			if ($("select[name=categoriaServicio]").val() == 0) {
+				mensajeError += "No has seleccionado la categoría<br>";
+				enviar = false;
+			}
+
+			if ($("input[name=tituloServicio]").val() == "") {
+				mensajeError += "No has escrito del título del servicio<br>";
+				enviar = false;
+			}
+
+			if ($("textarea[name=descripcionServicio]").val() == "") {
+				mensajeError += "No has escrito la descripción del servicio<br>";
+				enviar = false;
+			}
+
+			if ($("select[name=ciudadServicio]").val() == 0) {
+				mensajeError += "No has seleccionado la ciudad<br>";
+				enviar = false;
+			}
+
+			if ($("input[name=tiempoServicio]").val() == "" || isNaN($("input[name=tiempoServicio]").val()) || $("input[name=tiempoServicio]").val() < 0.5 || (parseFloat($("input[name=tiempoServicio]").val()) /* + {{user.timeDay}} */) > 6) {
+				mensajeError += "El tiempo dado es incorrecto o supera tus 6 horas<br>";
+				enviar = false;
+			}
+
+			if (!enviar) {
+
+				span.html(mensajeError);
+				span.show();
+			}
+
+			return enviar;
+		}
+
+	});
+
+</script>
+{% endblock %}
+
+
+{% endblock %}
+
+{% block footer %}
+<div class="page-footer font-small unique-color-dark">
+
+	<div style="background-color: #00A2FF;">
+		<div class="container">
+
+			<div class="row py-4 d-flex align-items-center">
+
+				<div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+					<h6 class="mb-0">Footer</h6>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container text-center text-md-left mt-5">
+
+		<div class="row mt-3">
+
+			<div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+
+				<h6 class="text-uppercase font-weight-bold">ExChange</h6>
+				<hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+				<p>Semoh una empresa pequenia por favor Nacho ponnos un dies</p>
+
+			</div>
+			<div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+
+				<h6 class="text-uppercase font-weight-bold">Products</h6>
+				<hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+				<p>
+					<a href="#!">gjgh</a>
+				</p>
+				<p>
+					<a href="#!">jhgjs</a>
+				</p>
+				<p>
+					<a href="#!">fghfghw</a>
+				</p>
+				<p>
+					<a href="#!">ghfghf</a>
+				</p>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+
+				<h6 class="text-uppercase font-weight-bold">ghfs</h6>
+				<hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+				<p>
+					<a href="#!">Yghfgt</a>
+				</p>
+				<p>
+					<a href="#!">dghfcdvb</a>
+				</p>
+				<p>
+					<a href="#!">gfdgf</a>
+				</p>
+				<p>
+					<a href="#!">gfdgfd</a>
+				</p>
+			</div>
+			<div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+				<h6 class="text-uppercase font-weight-bold">Contacto</h6>
+				<hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+				<p>
+					<i class="fas fa-home mr-3"></i> Granada, Andalucia, ESPAÑA</p>
+				<p>
+					<i class="fas fa-envelope mr-3"></i> exchange@exchange.com</p>
+				<p>
+					<i class="fas fa-phone mr-3"></i> 958 958 958 </p>
+
+			</div>
+
+		</div>
+
+	</div>
+	<div class="footer-copyright text-center py-3">© 2018 Copyright:
+		<a href="#"> ExChange</a>
+	</div>
+</div>
+{% endblock %}
