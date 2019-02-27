@@ -47,4 +47,44 @@ class ServicesRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findByAvailability($value, $value2)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.availability = :val')
+            ->andWhere('s.user = :val1')
+            ->setParameter('val', $value)
+            ->setParameter('val1', $value2)
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByAvailableAndNotAccepted($value, $value1, $value2)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.availability = :val')
+            ->andWhere('s.user = :val1')
+            ->andWhere('s.accepted = :val2')
+            ->setParameter('val', $value)
+            ->setParameter('val1', $value1)
+            ->setParameter('val2', $value2)
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByAccepted($value, $value2)
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.accepted = :val')
+            ->andWhere('s.user = :val1')
+            ->setParameter('val', $value)
+            ->setParameter('val1', $value2)
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
