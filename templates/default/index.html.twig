@@ -45,12 +45,39 @@
 
             <ul class="carousel-indicators">
                 <li data-target="#demo" data-slide-to="0" class="active"></li>
-                <li data-target="#demo" data-slide-to="1"></li>
-                <li data-target="#demo" data-slide-to="2"></li>
+                {% for servicio in servicios %}
+                <li data-target="#demo" data-slide-to="{{}}"></li>
             </ul>
-
             <div class="carousel-inner">
-            {% for servicio in servicios %}
+                <div class="carousel-item active">
+                    <img src="images/{{servicio.image}}.jpg">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{servicio.autor}}</h5>
+                        <p>{{servicio.descripcion}}</p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+
+        </div>
+    </div>
+     <h1>Novedades:</h1>
+    <div style="margin:auto; width:70%; height: auto;">
+        <div class="carousel slide" data-ride="carousel">
+
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                {% for servicio in servicios %}
+                <li data-target="#demo" data-slide-to="{{}}"></li>
+            </ul>
+            <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img src="images/{{servicio.image}}.jpg">
                     <div class="carousel-caption d-none d-md-block">

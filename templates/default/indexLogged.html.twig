@@ -57,18 +57,16 @@
         </nav>
 {% endblock %}
 {% block body %}
-    <h1>Actividades destacadas</h1>
+     <h1>Actividades destacadas</h1>
     <div style="margin:auto; width:70%; height: auto;">
         <div class="carousel slide" data-ride="carousel">
 
             <ul class="carousel-indicators">
                 <li data-target="#demo" data-slide-to="0" class="active"></li>
-                <li data-target="#demo" data-slide-to="1"></li>
-                <li data-target="#demo" data-slide-to="2"></li>
+                {% for servicio in servicios %}
+                <li data-target="#demo" data-slide-to="{{}}"></li>
             </ul>
-
             <div class="carousel-inner">
-            {% for servicio in servicios %}
                 <div class="carousel-item active">
                     <img src="images/{{servicio.image}}.jpg">
                     <div class="carousel-caption d-none d-md-block">
@@ -88,22 +86,35 @@
 
         </div>
     </div>
-    <div class="jumbotron">
-  <h1 class="display-4">Acerca de nosotros</h1>
-  <p class="lead">Bebesita tu hombee te hama pero tu le ere infiel</p>
-  <hr class="my-4">
-  <p>Con calmaa</p>
-</div>
-           <div class="jumbotron text-center">
-            <img src="images/logo.png" class="rounded-circle" alt="logo" width="200" height="200">
-            <h1>BUSCA AQUÍ TU SERVICIO</h1>
-            <form action="#" method="POST">
-                <div class="form-group">
-                    <input type="text" class="form-control" id="servicio" placeholder="Servicio" name="servicio">
+     <h1>Novedades:</h1>
+    <div style="margin:auto; width:70%; height: auto;">
+        <div class="carousel slide" data-ride="carousel">
+
+            <ul class="carousel-indicators">
+                <li data-target="#demo" data-slide-to="0" class="active"></li>
+                {% for servicio in servicios %}
+                <li data-target="#demo" data-slide-to="{{}}"></li>
+            </ul>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="images/{{servicio.image}}.jpg">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>{{servicio.autor}}</h5>
+                        <p>{{servicio.descripcion}}</p>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Buscar Servicio</button>
-            </form>
+            </div>
+            {% endfor %}
+
+            <a class="carousel-control-prev" href="#demo" data-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </a>
+            <a class="carousel-control-next" href="#demo" data-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </a>
+
         </div>
+    </div>
 {% endblock %}
 {% block footer %}
 <div class="page-footer font-small unique-color-dark">
@@ -181,7 +192,7 @@
 
         </div>
         <div class="footer-copyright text-center py-3">© 2018 Copyright:
-            <a href="https://mdbootstrap.com/education/bootstrap/"> ExChange</a>
+            <a href="/index"> ExChange</a>
         </div>
     </div>
 {% endblock %}
