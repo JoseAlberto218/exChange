@@ -36,27 +36,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/profile", name="profile")
-     */
-    public function profile(Request $request): Response
-    {
-    	$session=$request->getSession()->get(Security::LAST_USERNAME);
-    	$repository = $this->getDoctrine()->getRepository(User::class);
-        $user = $repository->findOneByEmail($session);
-        $servicios = $this->getDoctrine()->getRepository(Services::class);
-    	$services = $servicios->findAll();
-    	$comentarios = $this->getDoctrine()->getRepository(Comments::class);
-    	$commentSinRes = $comentarios->countCommentsAdmin(false);
-        $em = $this->getDoctrine()->getManager();
-        return $this->render('default/infoUser.html.twig', [
-        	'controller_name'=>'DefaultController',
-        	'usuario' => $user,
-        	'servicios' => $services,
-        	'msj' => $commentSinRes[0][1]]);
-    }
-
-    /**
-     * @Route("/addService", name="service")
+     * @Route("/addService", name="addService")
      */
     public function addService(Request $request): Response
     {
@@ -84,12 +64,13 @@ class DefaultController extends Controller
         	$category = $catElegida->findOneByName($_POST['category']);
 
 
-        	$nuevoServicio = new Services($title, $description, $image, $cost, true, false, $user, $city, $category, 0, null);
+        	$nuevoServicio = new Services($title, $description, $image, $cost, true, false, $user, $city, $category, 0, null, false);
 			$repositorio=$this->getDoctrine()->getManager();
 			$repositorio->persist($nuevoServicio);
 			$repositorio->flush();	
         	
         }
+
         $comentarios = $this->getDoctrine()->getRepository(Comments::class);
     	$commentSinRes = $comentarios->countCommentsAdmin(false);
         $em = $this->getDoctrine()->getManager();
@@ -99,6 +80,53 @@ class DefaultController extends Controller
         	'categorias' => $categories,
         	'msj' => $commentSinRes[0][1]]);
     }
+
+    /**
+     * @Route("/profile", name="profile")
+     */
+    public function profile(Request $request): Response
+    {
+    	$session=$request->getSession()->get(Security::LAST_USERNAME);
+    	$repository = $this->getDoctrine()->getRepository(User::class);
+        $user = $repository->findOneByEmail($session);
+        if(isset($_POST['aceptar'])){
+    		$repositorioServicio = $this->getDoctrine()->getRepository(Services::class);
+    		$servicio = $repositorioServicio->find($_POST['idServ']);
+
+    		$servicio->setAccepted(true);
+    		$aceptarServicio=$this->getDoctrine()->getManager();
+			$aceptarServicio->persist($servicio);
+			$aceptarServicio->flush();
+    	}
+
+    	if(isset($_POST['denegar'])){
+    		$repositorioServicio = $this->getDoctrine()->getRepository(Services::class);
+    		$servicio = $repositorioServicio->find($_POST['idServ']);
+
+    		$servicio->setAvailability(true);
+    		$servicio->setSolicitante(null);
+    		$denegarServicio=$this->getDoctrine()->getManager();
+			$denegarServicio->persist($servicio);
+			$denegarServicio->flush();
+    	}
+        $servicios = $this->getDoctrine()->getRepository(Services::class);
+    	$servicesAvailable = $servicios->findByAvailability(true, $user);
+    	$servicesNotAvailable = $servicios->findByAvailableAndNotAccepted(false, $user, false);
+    	$servicesAccepted = $servicios->findByAccepted(true, $user);
+    	$comentarios = $this->getDoctrine()->getRepository(Comments::class);
+    	$commentSinRes = $comentarios->countCommentsAdmin(false);
+    	
+        $em = $this->getDoctrine()->getManager();
+        return $this->render('default/infoUser.html.twig', [
+        	'controller_name'=>'DefaultController',
+        	'usuario' => $user,
+        	'serviciosD' => $servicesAvailable,
+        	'serviciosA' => $servicesAccepted,
+        	'serviciosND' => $servicesNotAvailable,
+        	'msj' => $commentSinRes[0][1]
+        ]);
+    }
+
 
     /**
      * @Route("/contact", name="contact")
@@ -119,6 +147,8 @@ class DefaultController extends Controller
 				$comentario->persist($nuevoMensaje);
 				$comentario->flush();
     		}
+    		$comentarios = $this->getDoctrine()->getRepository(Comments::class);
+    		$commentSinRes = $comentarios->countCommentsAdmin(false);
 
         	return $this->render('default/contactL.html.twig', [
         	'controller_name'=>'DefaultController',
@@ -134,8 +164,7 @@ class DefaultController extends Controller
 			$comentario->persist($nuevoMensaje);
 			$comentario->flush();
     	}
-    	$comentarios = $this->getDoctrine()->getRepository(Comments::class);
-    	$commentSinRes = $comentarios->countCommentsAdmin(false);
+    	
         $em = $this->getDoctrine()->getManager();
         return $this->render('default/contact.html.twig');
     }
@@ -175,6 +204,42 @@ class DefaultController extends Controller
         	'comRespondidos' => $commentRes,
         	'comSinResponder' => $commentSinRes,
         	'msj' => $commentSinRes1[0][1]]);
+    }
+
+    /**
+     * @Route("/service", name="service")
+     */
+    public function serviceInf(Request $request): Response
+    {
+    	$session=$request->getSession()->get(Security::LAST_USERNAME);
+    		$repository = $this->getDoctrine()->getRepository(User::class);
+    		$user = $repository->findOneByEmail($session);
+
+    		if(isset($_POST['contratado'])){
+    			$servicio->setAvailability(false);
+    			$servicio->setSolicitante($user);
+    			$servicio->setNumSolicit($servicio->getNumSolicit()+1);
+    			$pedirServicio=$this->getDoctrine()->getManager();
+				$pedirServicio->persist($servicio);
+				$pedirServicio->flush();
+
+
+    		}
+
+    		$comentarios = $this->getDoctrine()->getRepository(Comments::class);
+    		$commentSinRes = $comentarios->countCommentsAdmin(false);
+
+    		$repositorioServicio = $this->getDoctrine()->getRepository(Services::class);
+    		$servicio = $repositorioServicio->find($_POST['idServ']);
+
+    		
+
+    		$em = $this->getDoctrine()->getManager();
+        	return $this->render('default/infoServicio.html.twig', [
+        	'controller_name'=>'DefaultController',
+        	'usuario' => $user,
+        	'msj' => $commentSinRes[0][1],
+        	'servicio' => $servicio]);
     }
     
 }

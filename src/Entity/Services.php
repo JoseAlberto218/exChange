@@ -78,11 +78,16 @@ class Services
      */
     private $messages;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $accepted;
+
     public function __toString(){
         return (string) $this->id;
     }
 
-    public function __construct($title, $description, $image, $cost, $availability, $completed, $user, $city, $category, $numSolicit, $solicitante){
+    public function __construct($title, $description, $image, $cost, $availability, $completed, $user, $city, $category, $numSolicit, $solicitante, $accepted){
         $this->title=$title;
         $this->description=$description;
         $this->image=$image;
@@ -94,6 +99,7 @@ class Services
         $this->category=$category;
         $this->solicitante=$solicitante;
         $this->numSolicit=$numSolicit;
+        $this->accepted=$accepted;
         $this->messages = new ArrayCollection();
     }
 
@@ -264,4 +270,17 @@ class Services
 
         return $this;
     }
+
+    public function getAccepted(): ?bool
+    {
+        return $this->accepted;
+    }
+
+    public function setAccepted(bool $accepted): self
+    {
+        $this->accepted = $accepted;
+
+        return $this;
+    }
+
 }
