@@ -1,0 +1,204 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mi perfil{% endblock %}
+
+{% block header %}
+<nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
+    <div class="ml-5">
+        <div style="margin-left: 140px;">
+            <a class="navbar-brand" href="/">ExChange</a>
+        </div>
+    </div>
+    <div class="mr-5">
+        <div style="margin-right: 140px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <div
+                            style="height:50px; width:100px; border:3px solid white; border-radius:10px; text-align: right; background-color: white">
+                            <span
+                                style="color: #00A2FF; padding-inline-end: 20px; bottom: 12px; right: 10px; position: absolute;">{{ usuario.moneyTime }}</span>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i
+                                class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>
+                    </div>
+                    <div class="col-sm">
+                        <div class="dropdown">
+                            <button class="btn" type="button" id="btnclr">
+                                <div><i class="far fa-envelope fa-2x " style="color:white;"></i><span
+                                        class="badge">{{ msj }}</span></div>
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-sm">
+                        <div class="dropdown">
+                            <button class="btn" type="button" data-toggle="dropdown" id="btnclr"><i
+                                    class="far fa-user fa-2x" style="color: white;"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="/profile">Mi perfil</a></li>
+                                <li><a href="/addService">Agregar Servicio</a></li>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                <li><a href="/admin">Opciones de administrador</a></li>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMIN') %}
+                                <li><a href="/adminPriv">Mensajes</a></li>
+                                {% endif %}
+                                <li><a href="/logout">Cerrar Sesion</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</nav>
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <h1>Editar perfil</h1>
+    <hr>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="text-center">
+                <img src="..." class="avatar img-circle" alt="avatar">
+                <h6>UCambiar imagen de perfil</h6>
+
+                <input type="file" class="form-control">
+            </div>
+        </div>
+
+        <!-- edit form column -->
+        <div class="col-md-9 personal-info">
+            <h3>Mis parametros</h3>
+
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Nombre:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="text" value="Jane">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Apellidos:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="text" value="Bishop">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Email:</label>
+                    <div class="col-lg-8">
+                        <input class="form-control" type="text" value="janesemail@gmail.com">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Nueva Contraseña:</label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="password" value="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Reescribe la nueva contraseña:</label>
+                    <div class="col-md-8">
+                        <input class="form-control" type="password" value="">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label"></label>
+                    <div class="col-md-8">
+                        <input type="button" class="btn btn-primary" value="Guardar Cambios">
+                        <span></span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<div class="page-footer font-small unique-color-dark">
+
+    <div style="background-color: #00A2FF;">
+        <div class="container">
+
+            <div class="row py-4 d-flex align-items-center">
+
+                <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+                    <h6 class="mb-0">Footer</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container text-center text-md-left mt-5">
+
+        <div class="row mt-3">
+
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+
+                <h6 class="text-uppercase font-weight-bold">ExChange</h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                <p>Semoh una empresa pequenia por favor Nacho ponnos un dies</p>
+
+            </div>
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+
+                <h6 class="text-uppercase font-weight-bold">Products</h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                <p>
+                    <a href="/contact">Dudas y sugerencias</a>
+                </p>
+                <p>
+                    <a href="#!">jhgjs</a>
+                </p>
+                <p>
+                    <a href="#!">fghfghw</a>
+                </p>
+                <p>
+                    <a href="#!">ghfghf</a>
+                </p>
+            </div>
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+
+                <h6 class="text-uppercase font-weight-bold">ghfs</h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                <p>
+                    <a href="#!">Yghfgt</a>
+                </p>
+                <p>
+                    <a href="#!">dghfcdvb</a>
+                </p>
+                <p>
+                    <a href="#!">gfdgf</a>
+                </p>
+                <p>
+                    <a href="#!">gfdgfd</a>
+                </p>
+            </div>
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                <h6 class="text-uppercase font-weight-bold">Contacto</h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                <p>
+                    <i class="fas fa-home mr-3"></i> Granada, Andalucia, ESPAÑA</p>
+                <p>
+                    <i class="fas fa-envelope mr-3"></i> exchange@exchange.com</p>
+                <p>
+                    <i class="fas fa-phone mr-3"></i> 958 958 958 </p>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href="/index"> ExChange</a>
+    </div>
+</div>
+{% endblock %}
