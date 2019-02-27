@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block head %}
-<title>Información del usuario</title>
-<meta charset="UTF-8" />
+<title>ExChange!</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
@@ -10,9 +9,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 {% endblock %}
-
 {% block header %}
-    <nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
+<nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
             <div class="ml-5">
                 <div style="margin-left: 140px;">
                     <a class="navbar-brand" href="/">ExChange</a>
@@ -59,104 +57,17 @@
         </nav>
 {% endblock %}
 {% block body %}
-<div class="container-fluid" style="background-color: rgb(220, 231, 227)">
-    <div class="row">
-        <div class="col-sm-4 text-center">
-            <div class="card" style="width:400px; background-color: rgb(184, 218, 255, 0.3); margin-left: 80px;">
-                <img class="rounded-circle" src="{{ usuario.profilePic }}" alt="Card image"
-                    style="width:250px; margin: 75px; height: 250px;">
-                <div class="card-body">
-                    <h4 class="card-title">{{ usuario.name }} {{ usuario.lastName }}</h4>
-                    <p class="card-text">
-                        Ciudad: {{ usuario.city }}<br>
-                        Email: {{ usuario.email }}<br>
-                        Money time: {{ usuario.moneyTime }}
-                    </p>
-                    <a href="#" class="btn btn-primary">Editar perfil</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-8"><br>
-            <h1 class="text-info">Tu listado de servicios</h1>
-            <div class="container">
-            
-                <div class="d-flex flex-wrap">
-                {% for servicio in serviciosD %}
-                    <div class="card border-info mb-3" style="max-width: 18rem; margin: 5px;">
-                        <img class="card-img-top" src="/images/srvImg/{{ servicio.image }}" alt="Servicio" style="width:100%; height:200px;">
-                        <div class="card-body text-info">
-                            <h5 class="card-title">{{ servicio.title }}</h5>
-                            <p class="card-text">{{ servicio.description }}</p>
-                            <form method="POST" action="/service">
-                                <input type="hidden" name="idServ" value="{{ servicio.id }}">
-                                <input type="submit" name="contratar" class="btn btn-primary" value="Contratar Servicio">
-                            </form>
-                            
-                        </div>
-                    </div>
-                {% endfor %}
-                </div> 
-              
-            </div>
-        </div>
+<div class="card mb-3">
+    <img class="card-img-top" src="/images/srvImg/{{ servicio.image }}" alt="Card image cap" style="width:900px; height: 600px">
+    <div class="card-body">
+        <h5 class="card-title">{{ servicio.title }}</h5>
+        <p class="card-text">{{ servicio.description }}</p>
+        <p class="card-text"><small class="text-muted">{{ servicio.user.name }}</small></p>
+        <form method="POST" action="/profile">
+            <input type="hidden" name="idServ" value="{{ servicio.id }}" >
+            <input type="submit" name="contratado" value="Contartar servicio" class="btn btn-primary">
+        </form>
     </div>
-    <div class="row">
-        <div class="col-sm-12"><br>
-            <h1 class="text-info">Peticiones de servicio</h1>
-            <div class="container">
-            
-                <div class="d-flex flex-wrap">
-                {% for servicio in serviciosND %}
-                    <div class="card border-info mb-3" style="max-width: 18rem; margin: 5px;">
-                        <img class="card-img-top" src="/images/srvImg/{{ servicio.image }}" alt="Servicio" style="width:100%; height:200px;">
-                        <div class="card-body text-info">
-                            <h5 class="card-title">{{ servicio.title }}</h5>
-                            <p class="card-text">{{ servicio.description }}</p>
-                            <p class="card-text">Persona que lo solicita: {{ servicio.solicitante.name }}</p>
-                            <form method="POST" action="/profile">
-                                <input type="hidden" name="idServ" value="{{ servicio.id }}" >
-                                <input type="submit" name="aceptar" class="btn btn-primary" value="Aceptar Peticion" style="width:100%;"><br>
-                                <input type="submit" name="denegar" class="btn btn-danger" value="Denegar Peticion" style="width:100%;">
-                            </form>
-                            
-                        </div>
-                    </div>
-                {% endfor %}
-                </div> 
-              
-            </div>
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12"><br>
-            <h1 class="text-info">Servicios aceptados pendientes de realización</h1>
-            <div class="container">
-            
-                <div class="d-flex flex-wrap">
-                {% for servicio in serviciosA %}
-                    <div class="card border-info mb-3" style="max-width: 18rem; margin: 5px;">
-                        <img class="card-img-top" src="/images/srvImg/{{ servicio.image }}" alt="Servicio" style="width:100%; height:200px;">
-                        <div class="card-body text-info">
-                            <h5 class="card-title">{{ servicio.title }}</h5>
-                            <p class="card-text">{{ servicio.description }}</p>
-                            <p class="card-text">Persona que lo solicita: {{ servicio.solicitante.name }}</p>
-                            <form method="POST" action="/profile">
-                                <input type="hidden" name="idServ" value="{{ servicio.id }}" >
-                                <input type="submit" name="realizado" class="btn btn-success" value="Servicio Realizado" style="width:100%;"><br>
-                            </form>
-                            
-                        </div>
-                    </div>
-                {% endfor %}
-                </div> 
-              
-            </div>
-        </div>
-
-    </div>
-
 </div>
 {% endblock %}
 {% block footer %}
@@ -190,7 +101,7 @@
                 <h6 class="text-uppercase font-weight-bold">Products</h6>
                 <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
                 <p>
-                    <a href="/contact">Dudas y sugerencias</a>
+                    <a href="#!">gjgh</a>
                 </p>
                 <p>
                     <a href="#!">jhgjs</a>

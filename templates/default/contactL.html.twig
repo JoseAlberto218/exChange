@@ -1,0 +1,198 @@
+{% extends "base.html.twig" %}
+{% block title %}Contacto{% endblock %}
+{% block head %}
+    <meta charset="utf-8">
+    <title>Contacto</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% block stylesheets %}
+        <link href="{{ asset('css/app.scss') }}" type="text/css" rel="stylesheet" />
+    {% endblock %}
+{% endblock %}
+{% block header %}
+    <nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
+            <div class="ml-5">
+                <div style="margin-left: 140px;">
+                    <a class="navbar-brand" href="/">ExChange</a>
+                </div>
+            </div>
+            <div class="mr-5">
+                <div style="margin-right: 140px;">
+                    <div class="container">
+                        <div class="row">
+                          <div class="col-sm">
+                            <div style="height:50px; width:100px; border:3px solid white; border-radius:10px; text-align: right; background-color: white"><span style="color: #00A2FF; padding-inline-end: 20px; bottom: 12px; right: 10px; position: absolute;">{{ usuario.moneyTime }}</span></div>
+                          </div>
+                          <div class="col-sm">
+                            <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>                          
+                          </div>
+                          <div class="col-sm">
+                            <div class="dropdown">
+                              <button class="btn" type="button" id="btnclr"><div><i class="far fa-envelope fa-2x " style="color:white;"></i><span class="badge">{{ msj }}</span></div>
+                              </a></button>
+                            </div>
+                          </div>
+                          <div class="col-sm">
+                            <div class="dropdown">
+                                <button class="btn" type="button" data-toggle="dropdown" id="btnclr"><i class="far fa-user fa-2x" style="color: white;"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a href="/profile">Mi perfil</a></li>
+                                  <li><a href="/addService">Agregar Servicio</a></li>
+                                  {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a href="/admin">Opciones de administrador</a></li>
+                                  {% endif %}
+                                  {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a href="/adminPriv">Mensajes</a></li>
+                                  {% endif %}
+                                  <li><a href="/logout">Cerrar Sesion</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </nav>
+{% endblock %}
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h1>Bienvenido a la página de contacto</h1>
+                <table>
+                    <form action="/contact" method="POST" id="formComentario">
+                        <tr>
+                            <td><label for="email">Correo electrónico</label><input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="{{ usuario.email }}" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="comentario">Escríbenos aquí tu duda o comentario:</label></td>
+                        </tr>
+                        <tr>
+                            <br>
+                            <td><textarea rows="4" cols="50" name="comentario" val="" class="form-control"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="submit" name="sendComment" value="Enviar" class="btn btn-primary">
+                            </td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    {% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#formComentario").on("submit", validacion);
+            function validacion() {
+                var enviar = true;
+                if ($("textarea[name=comentario]").val() == "")
+                    enviar = false;
+                return enviar;
+            }
+        });
+    </script>
+
+    {% endblock %}
+{% endblock %}
+
+{% block footer %}
+<div class="page-footer font-small unique-color-dark">
+
+    <div style="background-color: #00A2FF;">
+        <div class="container">
+
+            <div class="row py-4 d-flex align-items-center">
+
+                <div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+                    <h6 class="mb-0">Footer</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container text-center text-md-left mt-5">
+
+        <div class="row mt-3">
+
+            <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+
+                <h6 class="text-uppercase font-weight-bold">ExChange</h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                <p>Semoh una empresa pequenia por favor Nacho ponnos un dies</p>
+
+            </div>
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+
+                <h6 class="text-uppercase font-weight-bold">Products</h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                <p>
+                    <a href="/contact">Dudas y sugerencias</a>
+                </p>
+                <p>
+                    <a href="#!">jhgjs</a>
+                </p>
+                <p>
+                    <a href="#!">fghfghw</a>
+                </p>
+                <p>
+                    <a href="#!">ghfghf</a>
+                </p>
+            </div>
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+
+                <h6 class="text-uppercase font-weight-bold">ghfs</h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                <p>
+                    <a href="#!">Yghfgt</a>
+                </p>
+                <p>
+                    <a href="#!">dghfcdvb</a>
+                </p>
+                <p>
+                    <a href="#!">gfdgf</a>
+                </p>
+                <p>
+                    <a href="#!">gfdgfd</a>
+                </p>
+            </div>
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                <h6 class="text-uppercase font-weight-bold">Contacto</h6>
+                <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+                <p>
+                    <i class="fas fa-home mr-3"></i> Granada, Andalucia, ESPAÑA</p>
+                <p>
+                    <i class="fas fa-envelope mr-3"></i> exchange@exchange.com</p>
+                <p>
+                    <i class="fas fa-phone mr-3"></i> 958 958 958 </p>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href="/"> ExChange</a>
+    </div>
+</div>
+{% endblock %}

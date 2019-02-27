@@ -8,52 +8,50 @@
 
 {% block header %}
 <nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
-	<div class="ml-5">
-		<div style="margin-left: 140px;">
-			<a class="navbar-brand" href="/">ExChange</a>
-		</div>
-	</div>
-	<div class="mr-5">
-		<div style="margin-right: 140px;">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm">
-						<div
-							style="height:50px; width:100px; border:3px solid white; border-radius:10px; text-align: right; background-color: white">
-							<span
-								style="color: #00A2FF; padding-inline-end: 20px; bottom: 12px; right: 10px; position: absolute;">{{ usuario.moneyTime }}</span>
-						</div>
-					</div>
-					<div class="col-sm">
-						<button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i
-								class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>
-					</div>
-					<div class="col-sm">
-						<div class="dropdown">
-							<button class="btn" type="button" id="btnclr"><a href="#">
-									<div><i class="far fa-envelope fa-2x " style="color:white;"></i><span
-											class="badge">1</span></div>
-								</a></button>
-						</div>
-					</div>
-					<div class="col-sm">
-						<div class="dropdown">
-							<button class="btn" type="button" data-toggle="dropdown" id="btnclr"><i
-									class="far fa-user fa-2x" style="color: white;"></i>
-							</button>
-							<ul class="dropdown-menu">
-								<li><a href="/profile">Mi perfil</a></li>
-								<li><a href="/addService" disabled>Agregar Servicio</a></li>
-								<li><a href="/logout">Cerrar Sesion</a></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	</div>
-</nav>
+            <div class="ml-5">
+                <div style="margin-left: 140px;">
+                    <a class="navbar-brand" href="/">ExChange</a>
+                </div>
+            </div>
+            <div class="mr-5">
+                <div style="margin-right: 140px;">
+                    <div class="container">
+                        <div class="row">
+                          <div class="col-sm">
+                            <div style="height:50px; width:100px; border:3px solid white; border-radius:10px; text-align: right; background-color: white"><span style="color: #00A2FF; padding-inline-end: 20px; bottom: 12px; right: 10px; position: absolute;">{{ usuario.moneyTime }}</span></div>
+                          </div>
+                          <div class="col-sm">
+                            <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>                          
+                          </div>
+                          <div class="col-sm">
+                            <div class="dropdown">
+                              <button class="btn" type="button" id="btnclr"><div><i class="far fa-envelope fa-2x " style="color:white;"></i><span class="badge">{{ msj }}</span></div>
+                              </a></button>
+                            </div>
+                          </div>
+                          <div class="col-sm">
+                            <div class="dropdown">
+                                <button class="btn" type="button" data-toggle="dropdown" id="btnclr"><i class="far fa-user fa-2x" style="color: white;"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a href="/profile">Mi perfil</a></li>
+                                  <li><a href="/addService">Agregar Servicio</a></li>
+                                  {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a href="/admin">Opciones de administrador</a></li>
+                                  {% endif %}
+                                  {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a href="/adminPriv">Mensajes</a></li>
+                                  {% endif %}
+                                  <li><a href="/logout">Cerrar Sesion</a></li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </nav>
 {% endblock %}
 {% block body %}
 <br>
@@ -61,7 +59,7 @@
 
 <div id="div1">
 
-	<form action="/" method="POST" id="creadoServicio" class="form-group" enctype="multipart/form-data">
+	<form action="/addService" method="POST" id="creadoServicio" class="form-group" enctype="multipart/form-data">
 
 		<table>
 			<tr>
@@ -233,7 +231,7 @@
 				<h6 class="text-uppercase font-weight-bold">Products</h6>
 				<hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
 				<p>
-					<a href="#!">gjgh</a>
+					<a href="/contact">Dudas y sugerencias</a>
 				</p>
 				<p>
 					<a href="#!">jhgjs</a>
