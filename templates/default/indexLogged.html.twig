@@ -24,11 +24,11 @@
                             <div style="height:50px; width:100px; border:3px solid white; border-radius:10px; text-align: right; background-color: white"><span style="color: #00A2FF; padding-inline-end: 20px; bottom: 12px; right: 10px; position: absolute;">{{ usuario.moneyTime }}</span></div>
                           </div>
                           <div class="col-sm">
-                            <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>   {#Falta cuadrar esto#}                        
+                            <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>                          
                           </div>
                           <div class="col-sm">
                             <div class="dropdown">
-                              <button class="btn" type="button" id="btnclr"><a href="#"><div><i class="far fa-envelope fa-2x " style="color:white;"></i><span class="badge">1</span></div>
+                              <button class="btn" type="button" id="btnclr"><div><i class="far fa-envelope fa-2x " style="color:white;"></i><span class="badge">{{ msj }}</span></div>
                               </a></button>
                             </div>
                           </div>
@@ -40,7 +40,10 @@
                                   <li><a href="/profile">Mi perfil</a></li>
                                   <li><a href="/addService">Agregar Servicio</a></li>
                                   {% if is_granted('ROLE_ADMIN') %}
-                                    <li><a href="/adminPriv">Opciones de administrador</a></li>
+                                    <li><a href="/admin">Opciones de administrador</a></li>
+                                  {% endif %}
+                                  {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a href="/adminPriv">Mensajes</a></li>
                                   {% endif %}
                                   <li><a href="/logout">Cerrar Sesion</a></li>
                                 </ul>

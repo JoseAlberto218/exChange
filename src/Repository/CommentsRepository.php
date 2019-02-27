@@ -84,4 +84,18 @@ class CommentsRepository extends ServiceEntityRepository
             ->getOneOrNullResult()
         ;
     }
+
+    public function countCommentsAdmin($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->select('count(c.mensaje)')
+            ->andWhere('c.respondido = :val')
+            ->andWhere('c.receptor = :val1')
+            ->setParameter('val', $value)
+            ->setParameter('val1', 'admin@gmail.com')
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

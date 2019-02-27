@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,7 +63,26 @@ class Services
      */
     private $category;
 
-    public function __construct($title, $description, $image, $cost, $availability, $completed, $user, $city, $category){
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="servicesS")
+     */
+    private $solicitante;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $numSolicit;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Message", mappedBy="destinatario")
+     */
+    private $messages;
+
+    public function __toString(){
+        return (string) $this->id;
+    }
+
+    public function __construct($title, $description, $image, $cost, $availability, $completed, $user, $city, $category, $numSolicit, $solicitante){
         $this->title=$title;
         $this->description=$description;
         $this->image=$image;
@@ -71,6 +92,9 @@ class Services
         $this->user=$user;
         $this->city=$city;
         $this->category=$category;
+        $this->solicitante=$solicitante;
+        $this->numSolicit=$numSolicit;
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -182,6 +206,61 @@ class Services
     public function setCategory(?Categories $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getSolicitante(): ?User
+    {
+        return $this->solicitante;
+    }
+
+    public function setSolicitante(?User $solicitante): self
+    {
+        $this->solicitante = $solicitante;
+
+        return $this;
+    }
+
+    public function getNumSolicit(): ?int
+    {
+        return $this->numSolicit;
+    }
+
+    public function setNumSolicit(int $numSolicit): self
+    {
+        $this->numSolicit = $numSolicit;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Message[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setDestinatario($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->contains($message)) {
+            $this->messages->removeElement($message);
+            // set the owning side to null (unless already changed)
+            if ($message->getDestinatario() === $this) {
+                $message->setDestinatario(null);
+            }
+        }
 
         return $this;
     }

@@ -26,11 +26,11 @@
                             <div style="height:50px; width:100px; border:3px solid white; border-radius:10px; text-align: right; background-color: white"><span style="color: #00A2FF; padding-inline-end: 20px; bottom: 12px; right: 10px; position: absolute;">{{ usuario.moneyTime }}</span></div>
                           </div>
                           <div class="col-sm">
-                            <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>   {#Falta cuadrar esto#}                        
+                            <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>                          
                           </div>
                           <div class="col-sm">
                             <div class="dropdown">
-                              <button class="btn" type="button" id="btnclr"><a href="#"><div><i class="far fa-envelope fa-2x " style="color:white;"></i><span class="badge">1</span></div>
+                              <button class="btn" type="button" id="btnclr"><div><i class="far fa-envelope fa-2x " style="color:white;"></i><span class="badge">{{ msj }}</span></div>
                               </a></button>
                             </div>
                           </div>
@@ -39,12 +39,15 @@
                                 <button class="btn" type="button" data-toggle="dropdown" id="btnclr"><i class="far fa-user fa-2x" style="color: white;"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/profile" disabled>Mi perfil</a></li>
-                                    <li><a href="/addService">Agregar Servicio</a></li>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <li><a href="/adminPriv">Opciones de administrador</a></li>
-                                    {% endif %}
-                                    <li><a href="/logout">Cerrar Sesion</a></li>  
+                                  <li><a href="/profile">Mi perfil</a></li>
+                                  <li><a href="/addService">Agregar Servicio</a></li>
+                                  {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a href="/admin">Opciones de administrador</a></li>
+                                  {% endif %}
+                                  {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a href="/adminPriv">Mensajes</a></li>
+                                  {% endif %}
+                                  <li><a href="/logout">Cerrar Sesion</a></li>
                                 </ul>
                               </div>
                             </div>
@@ -58,7 +61,7 @@
 {% block body %}
 <div class="container-fluid" style="background-color: rgb(220, 231, 227)">
     <div class="row">
-        <div class="col-sm-5 text-center">
+        <div class="col-sm-4 text-center">
             <div class="card" style="width:400px; background-color: rgb(184, 218, 255, 0.3); margin-left: 80px;">
                 <img class="rounded-circle" src="{{ usuario.profilePic }}" alt="Card image"
                     style="width:250px; margin: 75px; height: 250px;">
@@ -73,21 +76,24 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-7"><br>
+        <div class="col-sm-8"><br>
             <h1 class="text-info">Tu listado de servicios</h1>
-            <div class="container-fluid">
-                <div class="card-group mt-3">
+            <div class="container">
+            
+                <div class="d-flex flex-wrap">
                 {% for servicio in usuario.services %}
                     <div class="card border-info mb-3" style="max-width: 18rem; margin: 5px;">
-                        <img class="card-img-top" src="/images/srvImg/{{ servicio.image }}" alt="Servicio">
+                        <img class="card-img-top" src="/images/srvImg/{{ servicio.image }}" alt="Servicio" style="width:100%; height:200px;">
                         <div class="card-body text-info">
                             <h5 class="card-title">{{ servicio.title }}</h5>
                             <p class="card-text">{{ servicio.description }}</p>
-                            <a href="#" class="btn btn-primary">Contratar Servicio</a>
+                            <a href="/service" class="btn btn-primary">Contratar Servicio</a>
+                            <input type="hidden" name="idServ" value="{{ servicio.id }}">
                         </div>
                     </div>
                 {% endfor %}
                 </div> 
+              
             </div>
         </div>
     </div>

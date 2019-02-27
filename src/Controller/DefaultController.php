@@ -23,10 +23,13 @@ class DefaultController extends Controller
     	if (isset($session)){
     		$repository = $this->getDoctrine()->getRepository(User::class);
     		$user = $repository->findOneByEmail($session);
+    		$comentarios = $this->getDoctrine()->getRepository(Comments::class);
+    		$commentSinRes = $comentarios->countCommentsAdmin(false);
     		$em = $this->getDoctrine()->getManager();
         	return $this->render('default/indexLogged.html.twig', [
         	'controller_name'=>'DefaultController',
-        	'usuario' => $user]);
+        	'usuario' => $user,
+        	'msj' => $commentSinRes[0][1]]);
     	}
         $em = $this->getDoctrine()->getManager();
         return $this->render('default/index.html.twig');
@@ -42,11 +45,14 @@ class DefaultController extends Controller
         $user = $repository->findOneByEmail($session);
         $servicios = $this->getDoctrine()->getRepository(Services::class);
     	$services = $servicios->findAll();
+    	$comentarios = $this->getDoctrine()->getRepository(Comments::class);
+    	$commentSinRes = $comentarios->countCommentsAdmin(false);
         $em = $this->getDoctrine()->getManager();
         return $this->render('default/infoUser.html.twig', [
         	'controller_name'=>'DefaultController',
         	'usuario' => $user,
-        	'servicios' => $services]);
+        	'servicios' => $services,
+        	'msj' => $commentSinRes[0][1]]);
     }
 
     /**
@@ -78,17 +84,20 @@ class DefaultController extends Controller
         	$category = $catElegida->findOneByName($_POST['category']);
 
 
-        	$nuevoServicio = new Services($title, $description, $image, $cost, true, false, $user, $city, $category);
+        	$nuevoServicio = new Services($title, $description, $image, $cost, true, false, $user, $city, $category, 0, null);
 			$repositorio=$this->getDoctrine()->getManager();
 			$repositorio->persist($nuevoServicio);
 			$repositorio->flush();	
         	
         }
+        $comentarios = $this->getDoctrine()->getRepository(Comments::class);
+    	$commentSinRes = $comentarios->countCommentsAdmin(false);
         $em = $this->getDoctrine()->getManager();
         return $this->render('default/addService.html.twig', [
         	'controller_name'=>'DefaultController',
         	'usuario' => $user,
-        	'categorias' => $categories]);
+        	'categorias' => $categories,
+        	'msj' => $commentSinRes[0][1]]);
     }
 
     /**
@@ -113,7 +122,8 @@ class DefaultController extends Controller
 
         	return $this->render('default/contactL.html.twig', [
         	'controller_name'=>'DefaultController',
-        	'usuario' => $user]);
+        	'usuario' => $user,
+        	'msj' => $commentSinRes[0][1]]);
     	}
     	if(isset($_POST['sendComment'])){
     		$emisor=$_POST['email'];
@@ -124,6 +134,8 @@ class DefaultController extends Controller
 			$comentario->persist($nuevoMensaje);
 			$comentario->flush();
     	}
+    	$comentarios = $this->getDoctrine()->getRepository(Comments::class);
+    	$commentSinRes = $comentarios->countCommentsAdmin(false);
         $em = $this->getDoctrine()->getManager();
         return $this->render('default/contact.html.twig');
     }
@@ -155,12 +167,14 @@ class DefaultController extends Controller
         $comentarios = $this->getDoctrine()->getRepository(Comments::class);
     	$commentRes = $comentarios->findByResInv(true);
     	$commentSinRes = $comentarios->findByRes(false);
+    	$commentSinRes1 = $comentarios->countCommentsAdmin(false);
         $em = $this->getDoctrine()->getManager();
         return $this->render('admin/adminPrivate.html.twig', [
         	'controller_name'=>'DefaultController',
         	'usuario' => $user,
         	'comRespondidos' => $commentRes,
-        	'comSinResponder' => $commentSinRes]);
+        	'comSinResponder' => $commentSinRes,
+        	'msj' => $commentSinRes1[0][1]]);
     }
     
 }

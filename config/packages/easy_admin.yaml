@@ -10,4 +10,12 @@ easy_admin:
             class: App\Entity\User
             list:
                 title: 'Usuarios'
+        Categories:
+            class: App\Entity\Categories
+            list:
+                title: 'Categorias'
+        Services:
+            class: App\Entity\Services
+            list:
+                title: 'Todos los servicios'
 

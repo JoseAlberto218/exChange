@@ -27,11 +27,11 @@
                             <div style="height:50px; width:100px; border:3px solid white; border-radius:10px; text-align: right; background-color: white"><span style="color: #00A2FF; padding-inline-end: 20px; bottom: 12px; right: 10px; position: absolute;">{{ usuario.moneyTime }}</span></div>
                           </div>
                           <div class="col-sm">
-                            <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>   {#Falta cuadrar esto#}                        
+                            <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>                          
                           </div>
                           <div class="col-sm">
                             <div class="dropdown">
-                              <button class="btn" type="button" id="btnclr"><a href="#"><div><i class="far fa-envelope fa-2x " style="color:white;"></i><span class="badge">1</span></div>
+                              <button class="btn" type="button" id="btnclr"><div><i class="far fa-envelope fa-2x " style="color:white;"></i><span class="badge">{{ msj }}</span></div>
                               </a></button>
                             </div>
                           </div>
@@ -40,12 +40,15 @@
                                 <button class="btn" type="button" data-toggle="dropdown" id="btnclr"><i class="far fa-user fa-2x" style="color: white;"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/profile" disabled>Mi perfil</a></li>
-                                    <li><a href="/addService">Agregar Servicio</a></li>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <li><a href="/adminPriv">Opciones de administrador</a></li>
-                                    {% endif %}
-                                    <li><a href="/logout">Cerrar Sesion</a></li>  
+                                  <li><a href="/profile">Mi perfil</a></li>
+                                  <li><a href="/addService">Agregar Servicio</a></li>
+                                  {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a href="/admin">Opciones de administrador</a></li>
+                                  {% endif %}
+                                  {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a href="/adminPriv">Mensajes</a></li>
+                                  {% endif %}
+                                  <li><a href="/logout">Cerrar Sesion</a></li>
                                 </ul>
                               </div>
                             </div>
@@ -71,11 +74,8 @@
 			</td>
 			<td><a href="/admin"><input type="button" id="editarPerfil" value="Editar perfil de usuarios"
 					class="btn btn-outline-primary"></input></a></td>
-			<td><input type="button" id="generarCategoria" value="Generar categoría"
-					class="btn btn-outline-primary"></input>
-			</td>
-			<td><input type="button" id="habilitarCiudad" value="Habilitar ciudad"
-					class="btn btn-outline-primary"></input>
+			<td><a href="admin/?entity=Categories&action=list&menuIndex=1&submenuIndex=-1"><input type="button" id="generarCategoria" value="Generar categoría"
+					class="btn btn-outline-primary"></input></a>
 			</td>
 		</tr>
 
@@ -129,7 +129,7 @@
 
 				<td>{{ commentAnswered.receptor }}</td>
 			</tr>
-			<tr>
+			<tr style="border-bottom: 1px solid black">
 				<td><strong>Comentario</strong></td>
 
 				<td>{{ commentAnswered.mensaje }}</td>
