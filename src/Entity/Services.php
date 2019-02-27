@@ -51,6 +51,28 @@ class Services
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="string", length=60)
+     */
+    private $city;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Categories", inversedBy="services")
+     */
+    private $category;
+
+    public function __construct($title, $description, $image, $cost, $availability, $completed, $user, $city, $category){
+        $this->title=$title;
+        $this->description=$description;
+        $this->image=$image;
+        $this->cost=$cost;
+        $this->availability=$availability;
+        $this->completed=$completed;
+        $this->user=$user;
+        $this->city=$city;
+        $this->category=$category;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +158,30 @@ class Services
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Categories
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Categories $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

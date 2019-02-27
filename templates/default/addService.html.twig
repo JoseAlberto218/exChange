@@ -1,0 +1,284 @@
+{% extends "base.html.twig" %}
+
+{% block head %}
+<meta charset="utf-8">
+<title>Servicios</title>
+{% endblock %}
+
+
+{% block header %}
+<nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
+	<div class="ml-5">
+		<div style="margin-left: 140px;">
+			<a class="navbar-brand" href="/">ExChange</a>
+		</div>
+	</div>
+	<div class="mr-5">
+		<div style="margin-right: 140px;">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm">
+						<div
+							style="height:50px; width:100px; border:3px solid white; border-radius:10px; text-align: right; background-color: white">
+							<span
+								style="color: #00A2FF; padding-inline-end: 20px; bottom: 12px; right: 10px; position: absolute;">{{ usuario.moneyTime }}</span>
+						</div>
+					</div>
+					<div class="col-sm">
+						<button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i
+								class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>
+					</div>
+					<div class="col-sm">
+						<div class="dropdown">
+							<button class="btn" type="button" id="btnclr"><a href="#">
+									<div><i class="far fa-envelope fa-2x " style="color:white;"></i><span
+											class="badge">1</span></div>
+								</a></button>
+						</div>
+					</div>
+					<div class="col-sm">
+						<div class="dropdown">
+							<button class="btn" type="button" data-toggle="dropdown" id="btnclr"><i
+									class="far fa-user fa-2x" style="color: white;"></i>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a href="/profile">Mi perfil</a></li>
+								<li><a href="/addService" disabled>Agregar Servicio</a></li>
+								<li><a href="/logout">Cerrar Sesion</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+</nav>
+{% endblock %}
+{% block body %}
+<br>
+<h1 class="text-info">Hola {{ usuario.name }}, aquí puedes crear tu servicio</h1>
+
+<div id="div1">
+
+	<form action="/" method="POST" id="creadoServicio" class="form-group" enctype="multipart/form-data">
+
+		<table>
+			<tr>
+				<div class="file-upload">
+
+				  	<div class="image-upload-wrap text-info">
+				    	<input class="file-upload-input" type='file' onchange="readURL(this);" accept="image/*" name="image"/>
+				    	<div class="drag-text">
+				      		<h3 class="text-dark">Arrastra o selecciona una imagen de tu equipo</h3>
+				    	</div>
+				  	</div>
+				  	<div class="file-upload-content">
+				    	<img class="file-upload-image" src="#" alt="Tu imagen" />
+				    	<div class="image-title-wrap">
+				      		<button type="button" onclick="removeUpload()" class="remove-image">Remover <span class="image-title">Imagen a subir</span></button>
+				    	</div>
+				  	</div>
+				</div>
+			</tr>
+			<tr>
+				<td><strong>Categoría:</strong></td>
+
+				<td><select name="category">
+						<option value="0" select="selected">Elige aquí la categoría</option>
+						{% for category in categorias %}
+						<option value="{{ category.name }}">{{ category.name }}</option>
+						{% endfor %}
+					</select></td>
+			</tr>
+			<tr>
+				<td><label for="Titulo del Servicio"><strong>Título del servicio:</strong></label></td>
+				<td><input type="text" name="title"></input></td>
+			</tr>
+			<tr>
+				<td><label for="Descripcion del Servicio"><strong>Descripción del servicio:</strong></label></td>
+				<td><textarea name="description" rows="4" cols="50" class="form-control"></textarea></td>
+			</tr>
+			<tr>
+				<td><label for="Selecciona ciudad"><strong>Selecciona ciudad:</strong></label></td>
+				<td><input type="text" name="city" value="{{ usuario.city }}" placeholder="{{ usuario.city }}" disabled></input></td>
+			</tr>
+			<tr>
+				<td><label for="tiempoServicio"><strong>Tiempo que le vas a dedicar al servicio:</strong></label></td>
+				<td><input type="number" name="moneyTime" class="form-control"></input></td>
+			</tr>
+			<tr>
+				<td><input type="submit" name="createService" value="Crear servicio" class="btn btn-primary"></input>
+				</td>
+			</tr>
+			<tr>
+				<td><span class="ocultar"></span></td>
+			</tr>
+			<tr>
+				<td><br><br></td>
+			</tr>
+
+		</table>
+
+	</form>
+
+</div>
+
+
+{% block javascripts %}
+<script class="jsbin" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+<script>
+	function readURL(input) {
+	  if (input.files && input.files[0]) {
+
+	    var reader = new FileReader();
+
+	    reader.onload = function(e) {
+	      $('.image-upload-wrap').hide();
+
+	      $('.file-upload-image').attr('src', e.target.result);
+	      $('.file-upload-content').show();
+
+	      $('.image-title').html(input.files[0].name);
+	    };
+
+	    reader.readAsDataURL(input.files[0]);
+
+	  } else {
+	    removeUpload();
+	  }
+	}
+
+	function removeUpload() {
+	  $('.file-upload-input').replaceWith($('.file-upload-input').clone());
+	  $('.file-upload-content').hide();
+	  $('.image-upload-wrap').show();
+	}
+	$('.image-upload-wrap').bind('dragover', function () {
+	        $('.image-upload-wrap').addClass('image-dropping');
+	    });
+	    $('.image-upload-wrap').bind('dragleave', function () {
+	        $('.image-upload-wrap').removeClass('image-dropping');
+	});
+</script>
+
+<script>
+	$(function () {
+		$(".ocultar").hide();
+		$("#creadoServicio").on("submit", validacion);
+		function validacion() {
+			var span = $(".ocultar");
+			var mensajeError = "<strong>Hay uno o varios errores:</strong><br>";
+			var enviar = true;
+			if ($("select[name=categoriaServicio]").val() == 0) {
+				mensajeError += "No has seleccionado la categoría<br>";
+				enviar = false;
+			}
+			if ($("input[name=tituloServicio]").val() == "") {
+				mensajeError += "No has escrito del título del servicio<br>";
+				enviar = false;
+			}
+			if ($("textarea[name=descripcionServicio]").val() == "") {
+				mensajeError += "No has escrito la descripción del servicio<br>";
+				enviar = false;
+			}
+			if ($("select[name=ciudadServicio]").val() == 0) {
+				mensajeError += "No has seleccionado la ciudad<br>";
+				enviar = false;
+			}
+			
+			if (!enviar) {
+				span.html(mensajeError);
+				span.show();
+			}
+			return enviar;
+		}
+	});
+</script>
+{% endblock %}
+
+
+{% endblock %}
+
+{% block footer %}
+<div class="page-footer font-small unique-color-dark">
+
+	<div style="background-color: #00A2FF;">
+		<div class="container">
+
+			<div class="row py-4 d-flex align-items-center">
+
+				<div class="col-md-6 col-lg-5 text-center text-md-left mb-4 mb-md-0">
+					<h6 class="mb-0">Footer</h6>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container text-center text-md-left mt-5">
+
+		<div class="row mt-3">
+
+			<div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+
+				<h6 class="text-uppercase font-weight-bold">ExChange</h6>
+				<hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+				<p>Semoh una empresa pequenia por favor Nacho ponnos un dies</p>
+
+			</div>
+			<div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+
+				<h6 class="text-uppercase font-weight-bold">Products</h6>
+				<hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+				<p>
+					<a href="#!">gjgh</a>
+				</p>
+				<p>
+					<a href="#!">jhgjs</a>
+				</p>
+				<p>
+					<a href="#!">fghfghw</a>
+				</p>
+				<p>
+					<a href="#!">ghfghf</a>
+				</p>
+			</div>
+			<div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+
+				<h6 class="text-uppercase font-weight-bold">ghfs</h6>
+				<hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+				<p>
+					<a href="#!">Yghfgt</a>
+				</p>
+				<p>
+					<a href="#!">dghfcdvb</a>
+				</p>
+				<p>
+					<a href="#!">gfdgf</a>
+				</p>
+				<p>
+					<a href="#!">gfdgfd</a>
+				</p>
+			</div>
+			<div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+				<h6 class="text-uppercase font-weight-bold">Contacto</h6>
+				<hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
+				<p>
+					<i class="fas fa-home mr-3"></i> Granada, Andalucia, ESPAÑA</p>
+				<p>
+					<i class="fas fa-envelope mr-3"></i> exchange@exchange.com</p>
+				<p>
+					<i class="fas fa-phone mr-3"></i> 958 958 958 </p>
+
+			</div>
+
+		</div>
+
+	</div>
+	<div class="footer-copyright text-center py-3">© 2018 Copyright:
+		<a href="#"> ExChange</a>
+	</div>
+</div>
+{% endblock %}

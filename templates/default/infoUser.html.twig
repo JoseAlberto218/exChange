@@ -39,7 +39,7 @@
                                 <button class="btn" type="button" data-toggle="dropdown" id="btnclr"><i class="far fa-user fa-2x" style="color: white;"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                  <li><a href="/profile">Mi perfil</a></li>
+                                  <li><a href="/profile" disabled>Mi perfil</a></li>
                                   <li><a href="/addService">Agregar Servicio</a></li>
                                   <li><a href="/logout">Cerrar Sesion</a></li>
                                 </ul>
@@ -74,15 +74,17 @@
             <h1 class="text-info">Tu listado de servicios</h1>
             <div class="container-fluid">
                 <div class="card-group mt-3">
+                {% for servicio in usuario.services %}
                     <div class="card border-info mb-3" style="max-width: 18rem; margin: 5px;">
-                        <img class="card-img-top" src="" alt="Servicio">
+                        <img class="card-img-top" src="/images/srvImg/{{ servicio.image }}" alt="Servicio">
                         <div class="card-body text-info">
-                            <h5 class="card-title"></h5>
-                            <p class="card-text"></p>
+                            <h5 class="card-title">{{ servicio.title }}</h5>
+                            <p class="card-text">{{ servicio.description }}</p>
                             <a href="#" class="btn btn-primary">Contratar Servicio</a>
                         </div>
                     </div>
-                </div>
+                {% endfor %}
+                </div> 
             </div>
         </div>
     </div>
