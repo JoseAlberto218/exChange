@@ -1,16 +1,17 @@
 {% extends 'base.html.twig' %}
 {% block head %}
-<title>Información del usuario</title>
-<meta charset="UTF-8" />
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<div>
+	<meta charset="utf-8">
+	<title>Administrador</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+		integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</div>
 {% endblock %}
-
 {% block header %}
     <nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
             <div class="ml-5">
@@ -54,44 +55,122 @@
                 </div>
             </div>
         </nav>
-{% endblock %}
+ {% endblock %}
+
 {% block body %}
-<div class="container-fluid" style="background-color: rgb(220, 231, 227)">
-    <div class="row">
-        <div class="col-sm-5 text-center">
-            <div class="card" style="width:400px; background-color: rgb(184, 218, 255, 0.3); margin-left: 80px;">
-                <img class="rounded-circle" src="{{ usuario.profilePic }}" alt="Card image"
-                    style="width:250px; margin: 75px; height: 250px;">
-                <div class="card-body">
-                    <h4 class="card-title">{{ usuario.name }} {{ usuario.lastName }}</h4>
-                    <p class="card-text">
-                        Ciudad: {{ usuario.city }}<br>
-                        Email: {{ usuario.email }}<br>
-                        Money time: {{ usuario.moneyTime }}
-                    </p>
-                    <a href="#" class="btn btn-primary">Editar perfil</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-7"><br>
-            <h1 class="text-info">Tu listado de servicios</h1>
-            <div class="container-fluid">
-                <div class="card-group mt-3">
-                {% for servicio in usuario.services %}
-                    <div class="card border-info mb-3" style="max-width: 18rem; margin: 5px;">
-                        <img class="card-img-top" src="/images/srvImg/{{ servicio.image }}" alt="Servicio">
-                        <div class="card-body text-info">
-                            <h5 class="card-title">{{ servicio.title }}</h5>
-                            <p class="card-text">{{ servicio.description }}</p>
-                            <a href="#" class="btn btn-primary">Contratar Servicio</a>
-                        </div>
-                    </div>
-                {% endfor %}
-                </div> 
-            </div>
-        </div>
-    </div>
-</div>
+ 
+	<h1 class="text-info">Hola {{ usuario.name }}, ¿qué quieres ver?</h1>
+
+	<table>
+
+		<tr>
+			<td><input type="button" id="botonComentarios" value="Mostrar comentarios sin responder"
+					class="btn btn-outline-primary"></input></td>
+			<td><input type="button" id="botonComentariosRespondidos" value="Mostrar comentarios respondidos"
+					class="btn btn-outline-primary"></input>
+			</td>
+			<td><a href="/admin"><input type="button" id="editarPerfil" value="Editar perfil de usuarios"
+					class="btn btn-outline-primary"></input></a></td>
+			<td><input type="button" id="generarCategoria" value="Generar categoría"
+					class="btn btn-outline-primary"></input>
+			</td>
+			<td><input type="button" id="habilitarCiudad" value="Habilitar ciudad"
+					class="btn btn-outline-primary"></input>
+			</td>
+		</tr>
+
+	</table>
+
+	<div id="div1">
+		Los comentarios sin responder son
+		<table>
+
+			{% for comment in comSinResponder %}
+
+			<tr>
+				<td><strong>Correo:</strong></td>
+
+				<td>{{ comment.emisor }}</td>
+			</tr>
+			<tr>
+				<td><strong>Comentario:</strong></td>
+
+				<td>{{ comment.mensaje }}</td>
+			</tr>
+			<tr>
+				<td>¿Responder?</td>
+				<td>
+					<form action="/adminPriv" method="POST" id="formRespuesta">
+						<textarea rows="4" cols="50" name="respuesta" value="" id="respuesta"
+							class="form-control">RE: {{ comment.mensaje }}</textarea>
+						<input type="hidden" name="receptor" value="{{ comment.id }}">
+						<input type="submit" name="responder" value="Responder"
+							class="btn btn-primary">
+					</form>
+				</td>
+			</tr>
+			<tr>
+				<td><br><br></td>
+			</tr>
+			{% endfor %}
+
+		</table>
+
+	</div>
+
+	<div id="div2">
+		Los comentarios respondidos son
+		<table>
+
+			{% for commentAnswered in comRespondidos %}
+
+			<tr>
+				<td><strong>Correo</strong></td>
+
+				<td>{{ commentAnswered.receptor }}</td>
+			</tr>
+			<tr>
+				<td><strong>Comentario</strong></td>
+
+				<td>{{ commentAnswered.mensaje }}</td>
+			</tr>
+			{% endfor %}
+
+		</table>
+
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.js"
+		integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+	{% block javascripts %}
+
+	<script>
+		$(function () {
+			$("#div1").hide();
+			$("#div2").hide();
+			$("#botonComentarios").unbind('click');
+			$("#botonComentarios").click(function () {
+				$("#div2").hide();
+				$("#div1").toggle();
+			});
+			$("#botonComentariosRespondidos").unbind('click');
+			$("#botonComentariosRespondidos").click(function () {
+				$("#div1").hide();
+				$("#div2").toggle();
+			});
+			$("#formRespuesta").on("submit", validacion);
+			function validacion() {
+				var enviar = true;
+				if ($("textarea[name=respuesta]").val() == "")
+					enviar = false;
+				return enviar;
+			}
+		});
+	</script>
+
+	{% endblock %}
+
 {% endblock %}
 {% block footer %}
 <div class="page-footer font-small unique-color-dark">
@@ -124,7 +203,7 @@
                 <h6 class="text-uppercase font-weight-bold">Products</h6>
                 <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
                 <p>
-                    <a href="/contact">Dudas y sugerencias</a>
+                    <a href="/contact">Dudas y Sugerencias</a>
                 </p>
                 <p>
                     <a href="#!">jhgjs</a>

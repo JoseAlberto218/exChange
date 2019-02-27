@@ -39,6 +39,9 @@
                                 <ul class="dropdown-menu">
                                   <li><a href="/profile">Mi perfil</a></li>
                                   <li><a href="/addService">Agregar Servicio</a></li>
+                                  {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a href="/adminPriv">Opciones de administrador</a></li>
+                                  {% endif %}
                                   <li><a href="/logout">Cerrar Sesion</a></li>
                                 </ul>
                               </div>
@@ -124,7 +127,7 @@
                     <h6 class="text-uppercase font-weight-bold">Products</h6>
                     <hr class="deep-purple accent-2 mb-4 mt-0 d-inline-block mx-auto" style="width: 60px;">
                     <p>
-                        <a href="#!">gjgh</a>
+                        <a href="/contact">Dudas y sugerencias</a>
                     </p>
                     <p>
                         <a href="#!">jhgjs</a>

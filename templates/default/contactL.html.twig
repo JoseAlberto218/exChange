@@ -1,16 +1,19 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %}
+{% block title %}Contacto{% endblock %}
 {% block head %}
-<title>Información del usuario</title>
-<meta charset="UTF-8" />
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <title>Contacto</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    {% block stylesheets %}
+        <link href="{{ asset('css/app.scss') }}" type="text/css" rel="stylesheet" />
+    {% endblock %}
 {% endblock %}
-
 {% block header %}
     <nav class="navbar navbar-dark" style="height:70px; background-color: #00A2FF;">
             <div class="ml-5">
@@ -26,7 +29,7 @@
                             <div style="height:50px; width:100px; border:3px solid white; border-radius:10px; text-align: right; background-color: white"><span style="color: #00A2FF; padding-inline-end: 20px; bottom: 12px; right: 10px; position: absolute;">{{ usuario.moneyTime }}</span></div>
                           </div>
                           <div class="col-sm">
-                            <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>   {#Falta cuadrar esto#}                        
+                            <button class="btn" type="button" style="cursor:context-menu" id="btnclr"><i class="fas fa-money-bill fa-2x" style="color:white;top:20px;"></i></button>                      
                           </div>
                           <div class="col-sm">
                             <div class="dropdown">
@@ -39,60 +42,77 @@
                                 <button class="btn" type="button" data-toggle="dropdown" id="btnclr"><i class="far fa-user fa-2x" style="color: white;"></i>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a href="/profile" disabled>Mi perfil</a></li>
-                                    <li><a href="/addService">Agregar Servicio</a></li>
-                                    {% if is_granted('ROLE_ADMIN') %}
-                                        <li><a href="/adminPriv">Opciones de administrador</a></li>
-                                    {% endif %}
-                                    <li><a href="/logout">Cerrar Sesion</a></li>  
+                                  <li><a href="/profile">Mi perfil</a></li>
+                                  <li><a href="/addService">Agregar Servicio</a></li>
+                                  {% if is_granted('ROLE_ADMIN') %}
+                                    <li><a href="/adminPriv">Opciones de administrador</a></li>
+                                  {% endif %}
+                                  <li><a href="/logout">Cerrar Sesion</a></li>
                                 </ul>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
+                    </div>
                 </div>
             </div>
         </nav>
 {% endblock %}
 {% block body %}
-<div class="container-fluid" style="background-color: rgb(220, 231, 227)">
-    <div class="row">
-        <div class="col-sm-5 text-center">
-            <div class="card" style="width:400px; background-color: rgb(184, 218, 255, 0.3); margin-left: 80px;">
-                <img class="rounded-circle" src="{{ usuario.profilePic }}" alt="Card image"
-                    style="width:250px; margin: 75px; height: 250px;">
-                <div class="card-body">
-                    <h4 class="card-title">{{ usuario.name }} {{ usuario.lastName }}</h4>
-                    <p class="card-text">
-                        Ciudad: {{ usuario.city }}<br>
-                        Email: {{ usuario.email }}<br>
-                        Money time: {{ usuario.moneyTime }}
-                    </p>
-                    <a href="#" class="btn btn-primary">Editar perfil</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-7"><br>
-            <h1 class="text-info">Tu listado de servicios</h1>
-            <div class="container-fluid">
-                <div class="card-group mt-3">
-                {% for servicio in usuario.services %}
-                    <div class="card border-info mb-3" style="max-width: 18rem; margin: 5px;">
-                        <img class="card-img-top" src="/images/srvImg/{{ servicio.image }}" alt="Servicio">
-                        <div class="card-body text-info">
-                            <h5 class="card-title">{{ servicio.title }}</h5>
-                            <p class="card-text">{{ servicio.description }}</p>
-                            <a href="#" class="btn btn-primary">Contratar Servicio</a>
-                        </div>
-                    </div>
-                {% endfor %}
-                </div> 
+    <div class="container">
+        <div class="row">
+            <div class="col-sm">
+                <h1>Bienvenido a la página de contacto</h1>
+                <table>
+                    <form action="/contact" method="POST" id="formComentario">
+                        <tr>
+                            <td><label for="email">Correo electrónico</label><input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="{{ usuario.email }}" disabled>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="comentario">Escríbenos aquí tu duda o comentario:</label></td>
+                        </tr>
+                        <tr>
+                            <br>
+                            <td><textarea rows="4" cols="50" name="comentario" val="" class="form-control"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="submit" name="sendComment" value="Enviar" class="btn btn-primary">
+                            </td>
+                        </tr>
+                    </form>
+                </table>
             </div>
         </div>
     </div>
-</div>
+
+
+    {% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#formComentario").on("submit", validacion);
+            function validacion() {
+                var enviar = true;
+                if ($("textarea[name=comentario]").val() == "")
+                    enviar = false;
+                return enviar;
+            }
+        });
+    </script>
+
+    {% endblock %}
 {% endblock %}
+
 {% block footer %}
 <div class="page-footer font-small unique-color-dark">
 
@@ -169,7 +189,7 @@
 
     </div>
     <div class="footer-copyright text-center py-3">© 2018 Copyright:
-        <a href="https://mdbootstrap.com/education/bootstrap/"> ExChange</a>
+        <a href="/"> ExChange</a>
     </div>
 </div>
 {% endblock %}

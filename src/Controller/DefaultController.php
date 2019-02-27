@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Entity\User;
 use App\Entity\Categories;
 use App\Entity\Services;
+use App\Entity\Comments;
 /**
  * @Route("/")
  */
@@ -88,6 +89,78 @@ class DefaultController extends Controller
         	'controller_name'=>'DefaultController',
         	'usuario' => $user,
         	'categorias' => $categories]);
+    }
+
+    /**
+     * @Route("/contact", name="contact")
+     */
+    public function contact(Request $request): Response
+    {
+    	$session=$request->getSession()->get(Security::LAST_USERNAME);
+    	if (isset($session)){
+    		$repository = $this->getDoctrine()->getRepository(User::class);
+    		$user = $repository->findOneByEmail($session);
+    		$em = $this->getDoctrine()->getManager();
+    		if(isset($_POST['sendComment'])){
+    			$emisor=$user->getEmail();
+    			$mensaje=$_POST['comentario'];
+
+    			$nuevoMensaje = new Comments($emisor, $mensaje, 'admin@gmail.com', false);
+    			$comentario=$this->getDoctrine()->getManager();
+				$comentario->persist($nuevoMensaje);
+				$comentario->flush();
+    		}
+
+        	return $this->render('default/contactL.html.twig', [
+        	'controller_name'=>'DefaultController',
+        	'usuario' => $user]);
+    	}
+    	if(isset($_POST['sendComment'])){
+    		$emisor=$_POST['email'];
+    		$mensaje=$_POST['comentario'];
+
+    		$nuevoMensaje = new Comments($emisor, $mensaje, 'admin@gmail.com', false);
+    		$comentario=$this->getDoctrine()->getManager();
+			$comentario->persist($nuevoMensaje);
+			$comentario->flush();
+    	}
+        $em = $this->getDoctrine()->getManager();
+        return $this->render('default/contact.html.twig');
+    }
+
+    /**
+     * @Route("/adminPriv", name="adminPrivate")
+     */
+    public function adminP(Request $request): Response
+    {
+    	$session=$request->getSession()->get(Security::LAST_USERNAME);
+    	$repository = $this->getDoctrine()->getRepository(User::class);
+        $user = $repository->findOneByEmail($session);
+        if(isset($_POST['responder'])){
+    		$comentarioLeido = $this->getDoctrine()->getRepository(Comments::class);
+    		$comentario = $comentarioLeido->findOneById($_POST['receptor']);
+    		$comentario->setRespondido(true);
+    		$coment1=$this->getDoctrine()->getManager();
+			$coment1->merge($comentario);
+			$coment1->flush();
+
+    		$receptorRespuesta=$comentario->getEmisor();
+    		$mensaje=$_POST['respuesta'];
+
+    		$nuevaRespuesta = new Comments('admin@gmail.com', $mensaje, $receptorRespuesta, true);
+    		$coment=$this->getDoctrine()->getManager();
+			$coment->persist($nuevaRespuesta);
+			$coment->flush();
+    	}
+        $comentarios = $this->getDoctrine()->getRepository(Comments::class);
+    	$commentRes = $comentarios->findByResInv(true);
+    	$commentSinRes = $comentarios->findByRes(false);
+        $em = $this->getDoctrine()->getManager();
+        return $this->render('admin/adminPrivate.html.twig', [
+        	'controller_name'=>'DefaultController',
+        	'usuario' => $user,
+        	'comRespondidos' => $commentRes,
+        	'comSinResponder' => $commentSinRes]);
     }
     
 }
