@@ -87,4 +87,36 @@ class ServicesRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function findByDestacados()
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->orderBy('s.numSolicit', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByNovedad()
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->orderBy('s.id', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findByAllDestacados()
+    {
+        return $this->createQueryBuilder('s')
+            ->select('s')
+            ->orderBy('s.numSolicit', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

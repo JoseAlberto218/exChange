@@ -63,7 +63,7 @@
         <h5 class="card-title">{{ servicio.title }}</h5>
         <p class="card-text">{{ servicio.description }}</p>
         <p class="card-text"><small class="text-muted">{{ servicio.user.name }}</small></p>
-        <form method="POST" action="/profile">
+        <form method="POST" action="/service">
             <input type="hidden" name="idServ" value="{{ servicio.id }}" >
             <input type="submit" name="contratado" value="Contartar servicio" class="btn btn-primary">
         </form>

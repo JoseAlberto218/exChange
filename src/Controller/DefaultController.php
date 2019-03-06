@@ -20,6 +20,12 @@ class DefaultController extends Controller
     public function index(Request $request): Response
     {
     	$session=$request->getSession()->get(Security::LAST_USERNAME);
+
+    	$serviciosD = $this->getDoctrine()->getRepository(Services::class);
+    	$serviciosDestacados = $serviciosD->findByDestacados();
+    	$serviciosN = $this->getDoctrine()->getRepository(Services::class);
+    	$serviciosNuevos = $serviciosN->findByNovedad();
+
     	if (isset($session)){
     		$repository = $this->getDoctrine()->getRepository(User::class);
     		$user = $repository->findOneByEmail($session);
@@ -29,10 +35,38 @@ class DefaultController extends Controller
         	return $this->render('default/indexLogged.html.twig', [
         	'controller_name'=>'DefaultController',
         	'usuario' => $user,
-        	'msj' => $commentSinRes[0][1]]);
+        	'msj' => $commentSinRes[0][1],
+        	'destacados' => $serviciosDestacados,
+        	'novedad' => $serviciosNuevos]);
     	}
         $em = $this->getDoctrine()->getManager();
-        return $this->render('default/index.html.twig');
+        return $this->render('default/index.html.twig', [
+        	'destacados' => $serviciosDestacados,
+        	'novedad' => $serviciosNuevos]);
+    }
+
+    /**
+     * @Route("/featured", name="featured")
+     */
+    public function featured(Request $request): Response
+    {
+    	$session=$request->getSession()->get(Security::LAST_USERNAME);
+
+    	$serviciosD = $this->getDoctrine()->getRepository(Services::class);
+    	$serviciosDestacados = $serviciosD->findByAllDestacados();
+
+    	$repository = $this->getDoctrine()->getRepository(User::class);
+    	$user = $repository->findOneByEmail($session);
+
+    	$comentarios = $this->getDoctrine()->getRepository(Comments::class);
+    	$commentSinRes = $comentarios->countCommentsAdmin(false);
+
+    	$em = $this->getDoctrine()->getManager();
+        return $this->render('default/featured.html.twig', [
+        	'controller_name'=>'DefaultController',
+        	'usuario' => $user,
+        	'msj' => $commentSinRes[0][1],
+        	'destacados' => $serviciosDestacados]);
     }
 
     /**
@@ -215,6 +249,12 @@ class DefaultController extends Controller
     		$repository = $this->getDoctrine()->getRepository(User::class);
     		$user = $repository->findOneByEmail($session);
 
+    		$comentarios = $this->getDoctrine()->getRepository(Comments::class);
+    		$commentSinRes = $comentarios->countCommentsAdmin(false);
+
+    		$repositorioServicio = $this->getDoctrine()->getRepository(Services::class);
+    		$servicio = $repositorioServicio->find($_POST['idServ']);
+
     		if(isset($_POST['contratado'])){
     			$servicio->setAvailability(false);
     			$servicio->setSolicitante($user);
@@ -223,16 +263,7 @@ class DefaultController extends Controller
 				$pedirServicio->persist($servicio);
 				$pedirServicio->flush();
 
-
     		}
-
-    		$comentarios = $this->getDoctrine()->getRepository(Comments::class);
-    		$commentSinRes = $comentarios->countCommentsAdmin(false);
-
-    		$repositorioServicio = $this->getDoctrine()->getRepository(Services::class);
-    		$servicio = $repositorioServicio->find($_POST['idServ']);
-
-    		
 
     		$em = $this->getDoctrine()->getManager();
         	return $this->render('default/infoServicio.html.twig', [

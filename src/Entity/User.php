@@ -78,6 +78,16 @@ class User implements UserInterface
      */
     private $messages;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="users")
+     */
+    private $friendList;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="friendList")
+     */
+    private $users;
+
     public function __toString(){
         return (string) $this->id;
     }
@@ -87,6 +97,8 @@ class User implements UserInterface
         $this->services = new ArrayCollection();
         $this->servicesS = new ArrayCollection();
         $this->messages = new ArrayCollection();
+        $this->friendList = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -319,6 +331,60 @@ class User implements UserInterface
             if ($message->getRemitente() === $this) {
                 $message->setRemitente(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getFriendList(): Collection
+    {
+        return $this->friendList;
+    }
+
+    public function addFriendList(self $friendList): self
+    {
+        if (!$this->friendList->contains($friendList)) {
+            $this->friendList[] = $friendList;
+        }
+
+        return $this;
+    }
+
+    public function removeFriendList(self $friendList): self
+    {
+        if ($this->friendList->contains($friendList)) {
+            $this->friendList->removeElement($friendList);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|self[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(self $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addFriendList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(self $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeFriendList($this);
         }
 
         return $this;
